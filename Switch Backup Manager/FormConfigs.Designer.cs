@@ -52,7 +52,7 @@
             this.cbScrapXCIOnSD = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.versionHighlightsGroup = new System.Windows.Forms.GroupBox();
-            this.labelVersionsWithUpdate = new System.Windows.Forms.Label();
+            this.cbHighlightMissingNSPUpdate = new System.Windows.Forms.CheckBox();
             this.btnColorVersion = new System.Windows.Forms.Button();
             this.cbHighlightVersionOnNSP = new System.Windows.Forms.CheckBox();
             this.cbHighlightVersionOnXCI = new System.Windows.Forms.CheckBox();
@@ -144,7 +144,7 @@
             this.btnCancel.Location = new System.Drawing.Point(447, 6);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 10;
+            this.btnCancel.TabIndex = 13;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -154,7 +154,7 @@
             this.btnOK.Location = new System.Drawing.Point(364, 6);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 9;
+            this.btnOK.TabIndex = 12;
             this.btnOK.Text = "&OK";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -245,7 +245,7 @@
             this.cbScrapExtraInfoFromWeb.AutoSize = true;
             this.cbScrapExtraInfoFromWeb.Location = new System.Drawing.Point(10, 323);
             this.cbScrapExtraInfoFromWeb.Name = "cbScrapExtraInfoFromWeb";
-            this.cbScrapExtraInfoFromWeb.Size = new System.Drawing.Size(300, 17);
+            this.cbScrapExtraInfoFromWeb.Size = new System.Drawing.Size(306, 17);
             this.cbScrapExtraInfoFromWeb.TabIndex = 5;
             this.cbScrapExtraInfoFromWeb.Text = "Scrape extra info from web when new files are added (slow)";
             this.cbScrapExtraInfoFromWeb.UseVisualStyleBackColor = true;
@@ -371,7 +371,7 @@
             // 
             // versionHighlightsGroup
             // 
-            this.versionHighlightsGroup.Controls.Add(this.labelVersionsWithUpdate);
+            this.versionHighlightsGroup.Controls.Add(this.cbHighlightMissingNSPUpdate);
             this.versionHighlightsGroup.Controls.Add(this.btnColorVersion);
             this.versionHighlightsGroup.Controls.Add(this.cbHighlightVersionOnNSP);
             this.versionHighlightsGroup.Controls.Add(this.cbHighlightVersionOnXCI);
@@ -380,46 +380,49 @@
             this.versionHighlightsGroup.Size = new System.Drawing.Size(290, 100);
             this.versionHighlightsGroup.TabIndex = 6;
             this.versionHighlightsGroup.TabStop = false;
-            this.versionHighlightsGroup.Text = "Game Version Highlights";
+            this.versionHighlightsGroup.Text = "Version Update Highlights";
             // 
-            // labelVersionsWithUpdate
+            // cbHighlightMissingNSPUpdate
             // 
-            this.labelVersionsWithUpdate.AutoSize = true;
-            this.labelVersionsWithUpdate.Location = new System.Drawing.Point(14, 25);
-            this.labelVersionsWithUpdate.Name = "labelVersionsWithUpdate";
-            this.labelVersionsWithUpdate.Size = new System.Drawing.Size(108, 13);
-            this.labelVersionsWithUpdate.TabIndex = 0;
-            this.labelVersionsWithUpdate.Text = "Versions with update:";
+            this.cbHighlightMissingNSPUpdate.AutoSize = true;
+            this.cbHighlightMissingNSPUpdate.Enabled = false;
+            this.cbHighlightMissingNSPUpdate.Location = new System.Drawing.Point(36, 48);
+            this.cbHighlightMissingNSPUpdate.Name = "cbHighlightMissingNSPUpdate";
+            this.cbHighlightMissingNSPUpdate.Size = new System.Drawing.Size(163, 17);
+            this.cbHighlightMissingNSPUpdate.TabIndex = 7;
+            this.cbHighlightMissingNSPUpdate.Text = "Only if update isn\'t in NSP list";
+            this.cbHighlightMissingNSPUpdate.UseVisualStyleBackColor = true;
             // 
             // btnColorVersion
             // 
             this.btnColorVersion.BackColor = System.Drawing.Color.LightPink;
-            this.btnColorVersion.Location = new System.Drawing.Point(150, 20);
+            this.btnColorVersion.Location = new System.Drawing.Point(218, 20);
             this.btnColorVersion.Name = "btnColorVersion";
             this.btnColorVersion.Size = new System.Drawing.Size(24, 24);
-            this.btnColorVersion.TabIndex = 8;
+            this.btnColorVersion.TabIndex = 9;
             this.btnColorVersion.UseVisualStyleBackColor = false;
             this.btnColorVersion.Click += new System.EventHandler(this.btnColorVersion_Click);
             // 
             // cbHighlightVersionOnNSP
             // 
             this.cbHighlightVersionOnNSP.AutoSize = true;
-            this.cbHighlightVersionOnNSP.Location = new System.Drawing.Point(28, 71);
+            this.cbHighlightVersionOnNSP.Location = new System.Drawing.Point(17, 71);
             this.cbHighlightVersionOnNSP.Name = "cbHighlightVersionOnNSP";
-            this.cbHighlightVersionOnNSP.Size = new System.Drawing.Size(75, 17);
-            this.cbHighlightVersionOnNSP.TabIndex = 7;
-            this.cbHighlightVersionOnNSP.Text = "In NSP list";
+            this.cbHighlightVersionOnNSP.Size = new System.Drawing.Size(110, 17);
+            this.cbHighlightVersionOnNSP.TabIndex = 8;
+            this.cbHighlightVersionOnNSP.Text = "Games in NSP list";
             this.cbHighlightVersionOnNSP.UseVisualStyleBackColor = true;
             // 
             // cbHighlightVersionOnXCI
             // 
             this.cbHighlightVersionOnXCI.AutoSize = true;
-            this.cbHighlightVersionOnXCI.Location = new System.Drawing.Point(28, 48);
+            this.cbHighlightVersionOnXCI.Location = new System.Drawing.Point(17, 25);
             this.cbHighlightVersionOnXCI.Name = "cbHighlightVersionOnXCI";
-            this.cbHighlightVersionOnXCI.Size = new System.Drawing.Size(70, 17);
+            this.cbHighlightVersionOnXCI.Size = new System.Drawing.Size(105, 17);
             this.cbHighlightVersionOnXCI.TabIndex = 6;
-            this.cbHighlightVersionOnXCI.Text = "In XCI list";
+            this.cbHighlightVersionOnXCI.Text = "Games in XCI list";
             this.cbHighlightVersionOnXCI.UseVisualStyleBackColor = true;
+            this.cbHighlightVersionOnXCI.CheckedChanged += new System.EventHandler(this.cbHighlightVersionOnXCI_CheckedChanged);
             // 
             // labelRequiresRestart
             // 
@@ -508,10 +511,10 @@
             // cbShowCompletePaths
             // 
             this.cbShowCompletePaths.AutoSize = true;
-            this.cbShowCompletePaths.Location = new System.Drawing.Point(10, 135);
+            this.cbShowCompletePaths.Location = new System.Drawing.Point(10, 134);
             this.cbShowCompletePaths.Name = "cbShowCompletePaths";
             this.cbShowCompletePaths.Size = new System.Drawing.Size(205, 17);
-            this.cbShowCompletePaths.TabIndex = 0;
+            this.cbShowCompletePaths.TabIndex = 10;
             this.cbShowCompletePaths.Text = "Show complete path of files in the lists";
             this.cbShowCompletePaths.UseVisualStyleBackColor = true;
             // 
@@ -1006,6 +1009,6 @@
         private System.Windows.Forms.Button btnColorVersion;
         private System.Windows.Forms.CheckBox cbHighlightVersionOnNSP;
         private System.Windows.Forms.CheckBox cbHighlightVersionOnXCI;
-        private System.Windows.Forms.Label labelVersionsWithUpdate;
+        private System.Windows.Forms.CheckBox cbHighlightMissingNSPUpdate;
     }
 }

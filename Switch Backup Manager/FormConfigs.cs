@@ -89,6 +89,7 @@ namespace Switch_Backup_Manager
             Util.HighlightNSPOnScene = cbHighlightNSPOnScene.Checked;
             Util.HighlightBothOnScene = cbHighlightBothOnScene.Checked;
             Util.HighlightVersionOnXCI = cbHighlightVersionOnXCI.Checked;
+            Util.HighlightMissingNSPUpdate = cbHighlightMissingNSPUpdate.Checked;
             Util.HighlightVersionOnNSP = cbHighlightVersionOnNSP.Checked;
             Util.HighlightXCIOnScene_color = btnColorXCI.BackColor;
             Util.HighlightNSPOnScene_color = btnColorEshop.BackColor;
@@ -99,6 +100,7 @@ namespace Switch_Backup_Manager
             Util.ini.IniWriteValue("Visual", "highlightNSPOnScene", Util.HighlightNSPOnScene ? "true" : "false");
             Util.ini.IniWriteValue("Visual", "highlightBOTHOnScene", Util.HighlightBothOnScene ? "true" : "false");
             Util.ini.IniWriteValue("Visual", "highlightVersionOnXCI", Util.HighlightVersionOnXCI ? "true" : "false");
+            Util.ini.IniWriteValue("Visual", "highlightMissingNSPUpdate", Util.HighlightMissingNSPUpdate ? "true" : "false");
             Util.ini.IniWriteValue("Visual", "highlightVersionOnNSP", Util.HighlightVersionOnNSP ? "true" : "false");
             Util.ini.IniWriteValue("Visual", "highlightXCIOnScene_color", System.Drawing.ColorTranslator.ToHtml(Util.HighlightXCIOnScene_color));
             Util.ini.IniWriteValue("Visual", "highlightNSPOnScene_color", System.Drawing.ColorTranslator.ToHtml(Util.HighlightNSPOnScene_color));
@@ -197,6 +199,7 @@ namespace Switch_Backup_Manager
             cbHighlightNSPOnScene.Checked = Util.HighlightNSPOnScene;
             cbHighlightBothOnScene.Checked = Util.HighlightBothOnScene;
             cbHighlightVersionOnXCI.Checked = Util.HighlightVersionOnXCI;
+            cbHighlightMissingNSPUpdate.Checked = Util.HighlightMissingNSPUpdate;
             cbHighlightVersionOnNSP.Checked = Util.HighlightVersionOnNSP;
             this.btnColorXCI.BackColor = Util.HighlightXCIOnScene_color;
             this.btnColorEshop.BackColor = Util.HighlightNSPOnScene_color;
@@ -401,6 +404,19 @@ namespace Switch_Backup_Manager
             gbCustomNSP.Visible = false;
             this.autoRenamingPatternNSP = "{titleid} - {gamename} - {releasegroup}";
             lblExampleNSP.Text = Util.GetRenamingString(gameExampleNSP, this.autoRenamingPatternNSP);
+        }
+
+        private void cbHighlightVersionOnXCI_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.cbHighlightVersionOnXCI.Checked)
+            {
+                this.cbHighlightMissingNSPUpdate.Enabled = true;
+            }
+            else
+            {
+                this.cbHighlightMissingNSPUpdate.Checked = false;
+                this.cbHighlightMissingNSPUpdate.Enabled = false;
+            }
         }
 
         private void btnColorXCI_Click(object sender, EventArgs e)

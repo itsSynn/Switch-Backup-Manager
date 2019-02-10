@@ -21,7 +21,7 @@ namespace Switch_Backup_Manager
 {
     internal static class Util
     {
-        public const string VERSION = "1.2.1";   //Actual application version
+        public const string VERSION = "1.2.2";   //Actual application version
         public const string MIN_DB_Version = "1.2.1"; //This is the minimum version of the DB that can work
 
         public const string INI_FILE = "sbm.ini";
@@ -65,6 +65,7 @@ namespace Switch_Backup_Manager
         public static bool HighlightNSPOnScene = false;
         public static bool HighlightBothOnScene = false;
         public static bool HighlightVersionOnXCI = false;
+        public static bool HighlightMissingNSPUpdate = false;
         public static bool HighlightVersionOnNSP = false;
 
         public static Color HighlightXCIOnScene_color = Color.Green;
@@ -1568,6 +1569,7 @@ namespace Switch_Backup_Manager
             string highlightNSPOnScene = ini.IniReadValue("Visual", "highlightNSPOnScene").Trim().ToLower();
             string highlightBothOnScene = ini.IniReadValue("Visual", "highlightBOTHOnScene").Trim().ToLower();
             string highlightVersionOnXCI = ini.IniReadValue("Visual", "highlightVersionOnXCI").Trim().ToLower();
+            string highlightMissingNSPUpdate = ini.IniReadValue("Visual", "highlightMissingNSPUpdate").Trim().ToLower();
             string highlightVersionOnNSP = ini.IniReadValue("Visual", "highlightVersionOnNSP").Trim().ToLower();
             string highlightXCIOnScene_color = ini.IniReadValue("Visual", "highlightXCIOnScene_color").Trim().ToLower();
             string highlightNSPOnScene_color = ini.IniReadValue("Visual", "highlightNSPOnScene_color").Trim().ToLower();
@@ -1586,6 +1588,7 @@ namespace Switch_Backup_Manager
             if (highlightNSPOnScene != "") { HighlightNSPOnScene = (highlightNSPOnScene == "true"); } else { ini.IniWriteValue("Visual", "highlightNSPOnScene", "false"); };
             if (highlightBothOnScene != "") { HighlightBothOnScene = (highlightBothOnScene == "true"); } else { ini.IniWriteValue("Visual", "highlightBothOnScene", "false"); };
             if (highlightVersionOnXCI != "") { HighlightVersionOnXCI = (highlightVersionOnXCI == "true"); } else { ini.IniWriteValue("Visual", "highlightVersionOnXCI", "false"); };
+            if (highlightMissingNSPUpdate != "") { HighlightMissingNSPUpdate = (highlightMissingNSPUpdate == "true"); } else { ini.IniWriteValue("Visual", "highlightMissingNSPUpdate", "false"); };
             if (highlightVersionOnNSP != "") { HighlightVersionOnNSP = (highlightVersionOnNSP == "true"); } else { ini.IniWriteValue("Visual", "highlightVersionOnNSP", "false"); };
             if (highlightXCIOnScene_color != "") { HighlightXCIOnScene_color = System.Drawing.ColorTranslator.FromHtml(highlightXCIOnScene_color); } else { ini.IniWriteValue("Visual", "highlightXCIOnScene_color", System.Drawing.ColorTranslator.ToHtml(HighlightXCIOnScene_color)); };
             if (highlightNSPOnScene_color != "") { HighlightNSPOnScene_color = System.Drawing.ColorTranslator.FromHtml(highlightNSPOnScene_color); } else { ini.IniWriteValue("Visual", "highlightNSPOnScene_color", System.Drawing.ColorTranslator.ToHtml(HighlightNSPOnScene_color)); };

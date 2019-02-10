@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Switch_Backup_Manager
 {
@@ -139,10 +140,14 @@ namespace Switch_Backup_Manager
         public string NumberOfPlayers { get; set; }
         public List<string> Categories { get; set; }
         public int ESRB { get; set; }
-
         public string Source { get; set; }
 
         //Available at runtime only
         public string sceneFound { get; set; }
+
+        public bool isLatest()
+        {
+            return Double.TryParse(this.Version, out double currentVersion) && Double.TryParse(this.Latest, out double currentLatest) && currentVersion >= currentLatest;
+        }
     }
 }

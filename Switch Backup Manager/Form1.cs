@@ -1774,24 +1774,28 @@ namespace Switch_Backup_Manager
 
         private void objectListView1_FormatCell(object sender, BrightIdeasSoftware.FormatCellEventArgs e)
         {
+            FileData data = (FileData)e.Model;
+            
             // Highlights when not trimmed
             if (e.ColumnIndex == this.olvColumnIsTrimmedLocal.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (!data.IsTrimmed)
                     e.SubItem.BackColor = Color.IndianRed;
             }
             else if (e.ColumnIndex == this.olvColumnSourceLocal.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (data.Source.Contains("NSP") || data.Source.Contains("NCA"))
                     e.SubItem.BackColor = Color.IndianRed;
             }
 
             // Highlights when potential version update is available
-            // TODO: Toggle - Highlight only if latest version NSP isn't somewhere in the NSP list
-            if (Util.HighlightVersionOnXCI && (e.ColumnIndex == this.olvColumnVersionLocal.Index || e.ColumnIndex == this.olvColumnLatestLocal.Index))
-                highlightVersionUpdate(e);
+            if (Util.HighlightVersionOnXCI
+                && (e.ColumnIndex == this.olvColumnVersionLocal.Index || e.ColumnIndex == this.olvColumnLatestLocal.Index)
+                && !data.isLatest()
+                && (!Util.HighlightMissingNSPUpdate || (Util.HighlightMissingNSPUpdate && !latestNSPUpdateExists(data))))
+            {
+                e.SubItem.BackColor = Util.HighlightVersion_color;
+            }
         }
 
         private void OLVSceneList_FormatCell(object sender, BrightIdeasSoftware.FormatCellEventArgs e)
@@ -3868,9 +3872,10 @@ namespace Switch_Backup_Manager
 
         private void OLVEshop_FormatCell(object sender, FormatCellEventArgs e)
         {
+            FileData data = (FileData)e.Model;
+
             if (e.ColumnIndex == this.olvColumnGameNameEShop.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (data.ContentType == "AddOnContent") //DLC
                     e.SubItem.ForeColor = Color.ForestGreen;
                 if (data.ContentType == "Patch") //DLC
@@ -3878,15 +3883,19 @@ namespace Switch_Backup_Manager
             }
             else if (e.ColumnIndex == this.olvColumnSourceEShop.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (data.Source.Contains("XCI") || data.Source.Contains("NCA"))
                     e.SubItem.BackColor = Color.IndianRed;
             }
 
             // Highlights when potential version update is available
-            // TODO: Highlight only if latest version NSP isn't somewhere in the list
-            if (Util.HighlightVersionOnNSP && (e.ColumnIndex == this.olvColumnVersionEShop.Index || e.ColumnIndex == this.olvColumnLatestEShop.Index))
-                highlightVersionUpdate(e);
+            if (Util.HighlightVersionOnNSP
+                && data.ContentType.Equals("Application")
+                && !data.isLatest()
+                && (e.ColumnIndex == this.olvColumnVersionEShop.Index || e.ColumnIndex == this.olvColumnLatestEShop.Index)
+                && !latestNSPUpdateExists(data))
+            {
+                e.SubItem.BackColor = Util.HighlightVersion_color;
+            }
         }
 
         private void richTextBoxLog_TextChanged(object sender, EventArgs e)
@@ -4375,13 +4384,24 @@ namespace Switch_Backup_Manager
             Util.SplitXCIFiles(filesList, destinyPath, source);
         }
 
-        private void highlightVersionUpdate(FormatCellEventArgs e)
+        private bool latestNSPUpdateExists(FileData data)
         {
-            FileData data = (FileData)e.Model;
-            int version, latest;
-            if (Int32.TryParse(data.Version, out version) && Int32.TryParse(data.Latest, out latest))
-                if (version >= 0 && version < latest)
-                    e.SubItem.BackColor = Util.HighlightVersion_color;
+            bool latestUpdateExists = false;
+
+            foreach (FileData file in LocalNSPFilesList.Values)
+            {
+                if (file.ContentType.Equals("Patch")
+                    && file.TitleIDBaseGame.Equals(data.TitleID)
+                    && Double.TryParse(data.Latest, out double currentLatest)
+                    && Double.TryParse(file.Version, out double nspVersion)
+                    && currentLatest == nspVersion)
+                {
+                    latestUpdateExists = true;
+                    break;
+                }
+            }
+
+            return latestUpdateExists;
         }
     }
 }
