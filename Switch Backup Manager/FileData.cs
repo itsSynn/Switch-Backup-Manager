@@ -4,7 +4,7 @@ namespace Switch_Backup_Manager
 {
     class FileData
     {
-        public FileData () //Default constructor
+        public FileData() //Default constructor
         {
             this.FilePath = "";
             this.FileName = "";
@@ -48,12 +48,12 @@ namespace Switch_Backup_Manager
             this.Source = "";
         }
 
-        public FileData(string FilePath, string FileName, string FileNameWithExt, string ROMSize, long ROMSizeBytes, 
-            string UsedSpace, long UsedSpaceBytes, string TitleID, string TitleIDBaseGame, string GameName, 
-            string Developer, string GameRevision, string ProductCode, string SDKVersion, string CartSize, 
-            string MasterKeyRevision, Dictionary<string, string> Region_Icon, List<string> Languages, string Languages_resumed, 
-            bool IsTrimmed, string Group, string Serial, string Firmware, string Cardtype, string Region, bool IsSplit, 
-            string DistributionType, int IdScene, string ContentType, string Version, string Latest, bool HasExtendedInfo, string Description, 
+        public FileData(string FilePath, string FileName, string FileNameWithExt, string ROMSize, long ROMSizeBytes,
+            string UsedSpace, long UsedSpaceBytes, string TitleID, string TitleIDBaseGame, string GameName,
+            string Developer, string GameRevision, string ProductCode, string SDKVersion, string CartSize,
+            string MasterKeyRevision, Dictionary<string, string> Region_Icon, List<string> Languages, string Languages_resumed,
+            bool IsTrimmed, string Group, string Serial, string Firmware, string Cardtype, string Region, bool IsSplit,
+            string DistributionType, int IdScene, string ContentType, string Version, string Latest, bool HasExtendedInfo, string Description,
             string Publisher, string ReleaseDate, string NumberOfPlayers, List<string> Categories, int ESRB, string Source)
         {
             this.ImportedDate = "";
@@ -139,7 +139,7 @@ namespace Switch_Backup_Manager
         public string NumberOfPlayers { get; set; }
         public List<string> Categories { get; set; }
         public int ESRB { get; set; }
-        
+
         public string Source { get; set; }
 
         //Available at runtime only

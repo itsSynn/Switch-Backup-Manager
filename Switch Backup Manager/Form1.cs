@@ -46,7 +46,7 @@ namespace Switch_Backup_Manager
         {
             InitializeComponent();
 
-            this.Text = "Switch Backup Manager v"+Util.VERSION;
+            this.Text = "Switch Backup Manager v" + Util.VERSION;
             //Need to think a way of auto resizing columns based on screen resolution to ocupy all space available
             //this.Width = Screen.PrimaryScreen.Bounds.Width;
 
@@ -74,9 +74,9 @@ namespace Switch_Backup_Manager
                     else if (line.Contains("[WARNING]"))
                     {
                         color = Color.IndianRed;
-                    }                    
-                    richTextBoxLog.AppendText(line+"\n", color);
-                }                
+                    }
+                    richTextBoxLog.AppendText(line + "\n", color);
+                }
                 richTextBoxLog.SelectionStart = richTextBoxLog.Text.Length;
                 richTextBoxLog.ScrollToCaret();
                 richTextBoxLog.Resume();
@@ -143,9 +143,9 @@ namespace Switch_Backup_Manager
                 if (File.Exists("confNSP.bin"))
                 {
                     OLVEshop.RestoreState(File.ReadAllBytes("confNSP.bin"));
-                }                               
+                }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Util.logger.Warning("Could not recover environment settings.");
             }
@@ -298,7 +298,8 @@ namespace Switch_Backup_Manager
                 olvColumnFilePathLocal.AspectName = "FilePath";
                 olvColumnFilePathSD.AspectName = "FilePath";
                 olvColumnFilePathEShop.AspectName = "FilePath";
-            } else
+            }
+            else
             {
                 olvColumnFilePathLocal.AspectName = "FileNameWithExt";
                 olvColumnFilePathSD.AspectName = "FileNameWithExt";
@@ -338,7 +339,8 @@ namespace Switch_Backup_Manager
                 return content;
             };
 
-            olvColumnLanguagesLocal.AspectToStringConverter = delegate (object x) {
+            olvColumnLanguagesLocal.AspectToStringConverter = delegate (object x)
+            {
                 string result = "";
                 try
                 {
@@ -355,7 +357,8 @@ namespace Switch_Backup_Manager
                 return result;
             };
 
-            olvColumnLanguagesEShop.AspectToStringConverter = delegate (object x) {
+            olvColumnLanguagesEShop.AspectToStringConverter = delegate (object x)
+            {
                 string result = "";
                 try
                 {
@@ -372,7 +375,8 @@ namespace Switch_Backup_Manager
                 return result;
             };
 
-            olvColumnLanguagesSD.AspectToStringConverter = delegate (object x) {
+            olvColumnLanguagesSD.AspectToStringConverter = delegate (object x)
+            {
                 string result = "";
                 try
                 {
@@ -389,7 +393,8 @@ namespace Switch_Backup_Manager
                 return result;
             };
 
-            olvColumnLanguagesScene.AspectToStringConverter = delegate (object x) {
+            olvColumnLanguagesScene.AspectToStringConverter = delegate (object x)
+            {
                 string result = "";
                 try
                 {
@@ -407,7 +412,8 @@ namespace Switch_Backup_Manager
             };
 
 
-            olvColumnCategoriesLocal.AspectToStringConverter = delegate (object x) {
+            olvColumnCategoriesLocal.AspectToStringConverter = delegate (object x)
+            {
                 string result = "";
 
                 try
@@ -425,7 +431,8 @@ namespace Switch_Backup_Manager
                 return result;
             };
 
-            olvColumnCategoriesEShop.AspectToStringConverter = delegate (object x) {
+            olvColumnCategoriesEShop.AspectToStringConverter = delegate (object x)
+            {
                 string result = "";
 
                 try
@@ -508,31 +515,31 @@ namespace Switch_Backup_Manager
                 {
                     case "WLD":
                         return Properties.Resources.WLD;
-                        //break;
+                    //break;
                     case "USA":
                         return Properties.Resources.USA;
-                        //break;
+                    //break;
                     case "JPN":
                         return Properties.Resources.JPN;
-                        //break;
+                    //break;
                     case "EUR":
                         return Properties.Resources.EUR;
-                        //break;
+                    //break;
                     case "CHN":
                         return Properties.Resources.CHN;
-                        //break;
+                    //break;
                     case "GER":
                         return Properties.Resources.GER;
-                        //break;
+                    //break;
                     case "KOR":
                         return Properties.Resources.KOR;
-                        //break;
+                    //break;
                     case "SPA":
                         return Properties.Resources.SPA;
-                        //break;
+                    //break;
                     case "UKV":
                         return Properties.Resources.UKV;
-                        //break;
+                    //break;
                     default:
                         return Properties.Resources.WLD;
                         //break;
@@ -650,7 +657,8 @@ namespace Switch_Backup_Manager
                     PB_GameIcon.BackgroundImage = Properties.Resources.image_not_available;
                     PB_GameIcon.Refresh();
                 }
-            } else
+            }
+            else
             {
                 if (data != null)
                 {
@@ -663,7 +671,8 @@ namespace Switch_Backup_Manager
                         PB_GameIcon.BackgroundImage = Properties.Resources.image_not_available;
                         PB_GameIcon.Refresh();
                     }
-                } else
+                }
+                else
                 {
                     //Example: icon_0100A7F002830000_AmericanEnglish
                     string[] files = Directory.GetFiles(Util.CACHE_FOLDER, "icon_" + TitleID + "*.bmp");
@@ -716,10 +725,10 @@ namespace Switch_Backup_Manager
                 HtmlWeb web = new HtmlWeb();
                 HtmlAgilityPack.HtmlDocument doc = web.Load(url);
                 string releaseDate = doc.DocumentNode.SelectNodes("//*[@id=\"overview\"]/div[2]/dl/div[2]")[0].InnerText;
-                string numberOfPlayers = doc.DocumentNode.SelectNodes("//*[@id=\"overview\"]/div[2]/dl/div[3]")[0].InnerText; 
+                string numberOfPlayers = doc.DocumentNode.SelectNodes("//*[@id=\"overview\"]/div[2]/dl/div[3]")[0].InnerText;
                 string category = doc.DocumentNode.SelectNodes("//*[@id=\"overview\"]/div[2]/dl/div[4]")[0].InnerText;
                 string publisher = doc.DocumentNode.SelectNodes("//*[@id=\"overview\"]/div[2]/dl/div[5]")[0].InnerText;
-                string developer = doc.DocumentNode.SelectNodes("//*[@id=\"overview\"]/div[2]/dl/div[6]")[0].InnerText;                
+                string developer = doc.DocumentNode.SelectNodes("//*[@id=\"overview\"]/div[2]/dl/div[6]")[0].InnerText;
                 lblReleaseDate.Text = releaseDate;
                 lblNumberOfPlayers.Text = numberOfPlayers;
                 lblCategory.Text = category;
@@ -940,14 +949,16 @@ namespace Switch_Backup_Manager
                 try
                 {
                     list1_.Add(new Tuple<string, string>(entry.Key.Item1, ""), entry.Value);
-                } catch { }                
+                }
+                catch { }
             }
             foreach (KeyValuePair<Tuple<string, string>, FileData> entry in list2)
             {
                 try
                 {
                     list2_.Add(new Tuple<string, string>(entry.Key.Item1, ""), entry.Value);
-                } catch { }                
+                }
+                catch { }
             }
 
             foreach (FileData data in list1_.Values)
@@ -958,7 +969,8 @@ namespace Switch_Backup_Manager
                     try
                     {
                         result.Add(new Tuple<string, string>(data.TitleID, ""), data);
-                    } catch { }                    
+                    }
+                    catch { }
                 }
             }
 
@@ -972,7 +984,7 @@ namespace Switch_Backup_Manager
             dialog.RestoreDirectory = true;
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {                
+            {
                 string selectedPath = dialog.FileName;
                 menuLocalFiles.Enabled = false;
                 if (!backgroundWorkerAddFilesFromDirectory.IsBusy)
@@ -1022,7 +1034,7 @@ namespace Switch_Backup_Manager
 
                     foreach (ListViewItem item in selectedItems)
                     {
-                        titleID = item.Text;                      
+                        titleID = item.Text;
                         rev = Convert.ToString(((FileData)((OLVListItem)item).RowObject).Firmware);
                         data = Util.GetFileData(titleID, rev, LocalFilesList);
                         LocalFilesListSelectedItems.Add(new Tuple<string, string>(titleID, rev), data);
@@ -1057,7 +1069,8 @@ namespace Switch_Backup_Manager
                     panelEditTitle.Visible = true;
                     TitleToEdit = data;
                     LoadFieldsForEdition();
-                } else
+                }
+                else
                 {
                     panelEditTitle.Visible = false;
                 }
@@ -1223,7 +1236,7 @@ namespace Switch_Backup_Manager
                 }
             }
         }
-        
+
         private void backgroundWorkerAddFiles_DoWork(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
@@ -1384,7 +1397,7 @@ namespace Switch_Backup_Manager
                     }
                 }
 
- //Using Thread is not working good here.. (Working again?)
+                //Using Thread is not working good here.. (Working again?)
                 if (!backgroundWorkerLoadSDCardFiles.IsBusy)
                 {
                     menuSDFiles.Enabled = false;
@@ -1400,7 +1413,7 @@ namespace Switch_Backup_Manager
                 }
 
 
-//                UpdateSDCardList();
+                //                UpdateSDCardList();
             }
             else
             {
@@ -1725,7 +1738,8 @@ namespace Switch_Backup_Manager
                         item.Selected = true;
                     }
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Please, first select a SD card from the list.");
             }
@@ -1792,7 +1806,7 @@ namespace Switch_Backup_Manager
                     if (Util.HighlightXCIOnScene)
                     {
                         e.SubItem.BackColor = Util.HighlightXCIOnScene_color;
-                    }                    
+                    }
                     break;
                 case "BOTH":
                     if (Util.HighlightBothOnScene)
@@ -1804,7 +1818,7 @@ namespace Switch_Backup_Manager
         }
 
         private void filesToolStripMenuItem_Click(object sender, EventArgs e)
-        {            
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "XCI Files (*.XCI;*.XC0)|*.xci;*.xc0";
             openFileDialog.Multiselect = true;
@@ -1836,12 +1850,13 @@ namespace Switch_Backup_Manager
 
             object[] parameters = e.Argument as object[];
 
-            string [] filesList = (string[])parameters[0];
+            string[] filesList = (string[])parameters[0];
             string fileType = (string)parameters[1];
             if (fileType == "xci")
             {
                 Util.AppendFileDataDictionaryToXML(Util.AddFiles(filesList, fileType));
-            } else
+            }
+            else
             {
                 Util.AppendFileDataDictionaryToXML(Util.AddFiles(filesList, fileType), Util.LOCAL_NSP_FILES_DB);
             }
@@ -1861,7 +1876,8 @@ namespace Switch_Backup_Manager
             {
                 menuLocalFiles.Enabled = true;
                 UpdateLocalGamesList();
-            } else
+            }
+            else
             {
                 menuEShop.Enabled = true;
                 UpdateLocalNSPGamesList();
@@ -1909,11 +1925,11 @@ namespace Switch_Backup_Manager
         }
 
         private void objectListView1_KeyDown(object sender, KeyEventArgs e)
-        {            
+        {
             if (e.KeyCode == System.Windows.Forms.Keys.Delete)
             {
                 RemoveSelectedFiles("local");
-            }                
+            }
         }
 
         private void copyFilesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1932,7 +1948,7 @@ namespace Switch_Backup_Manager
             string operation = (string)parameters[2];
             string source = (string)parameters[3];
 
-            Util.CopyFilesOnDictionaryToFolder(filesList, destinyPath, operation);            
+            Util.CopyFilesOnDictionaryToFolder(filesList, destinyPath, operation);
         }
 
         private void backgroundWorkerCopyFiles_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -2119,7 +2135,9 @@ namespace Switch_Backup_Manager
             if (LocalFilesListSelectedItems.Count == 0)
             {
                 e.Cancel = true;
-            } else {
+            }
+            else
+            {
                 if (Util.UserCanDeleteFiles)
                 {
                     toolStripMenuItem97LocalFiles.Visible = true;
@@ -2704,7 +2722,8 @@ namespace Switch_Backup_Manager
             if (LocalNSPFilesListSelectedItems.Count > 0)
             {
                 DeleteSelectedFiles(LocalNSPFilesListSelectedItems, "eshop");
-            } else
+            }
+            else
             {
                 MessageBox.Show("No files selected");
                 return;
@@ -2716,7 +2735,8 @@ namespace Switch_Backup_Manager
             if (LocalFilesListSelectedItems.Count > 0)
             {
                 DeleteSelectedFiles(LocalFilesListSelectedItems, "local");
-            } else
+            }
+            else
             {
                 MessageBox.Show("No files selected");
                 return;
@@ -2728,7 +2748,8 @@ namespace Switch_Backup_Manager
             if (SDCardListSelectedItems.Count > 0)
             {
                 DeleteSelectedFiles(SDCardListSelectedItems, "sdcard");
-            } else
+            }
+            else
             {
                 MessageBox.Show("No files selected");
                 return;
@@ -2848,7 +2869,9 @@ namespace Switch_Backup_Manager
             if (SDCardListSelectedItems == null || SDCardListSelectedItems.Count == 0)
             {
                 e.Cancel = true;
-            } else {
+            }
+            else
+            {
                 if (Util.UserCanDeleteFiles)
                 {
                     toolStripMenuItem97SDCard.Visible = true;
@@ -3003,11 +3026,13 @@ namespace Switch_Backup_Manager
                 if (data != null)
                 {
                     System.Diagnostics.Process.Start("explorer.exe", Path.GetDirectoryName(data.FilePath));
-                } else
+                }
+                else
                 {
                     MessageBox.Show("Select one item from the list.");
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("Select one item from the list.");
             }
@@ -3110,7 +3135,7 @@ namespace Switch_Backup_Manager
                     filterText = null;
                     break;
             }
-            
+
             OLVLocalFiles.ModelFilter = new CompositeAllFilter(new List<IModelFilter> { filterText });
             OLVLocalFiles.DefaultRenderer = new HighlightTextRenderer(filterText);
             SumarizeLocalGamesList("local");
@@ -3580,7 +3605,7 @@ namespace Switch_Backup_Manager
                     value = e.Item.GetSubItem(e.ColumnIndex).Text;
                 }
                 clipboardInfoEShop = value;
-            }            
+            }
         }
 
         private void OLVSceneList_CellOver(object sender, CellOverEventArgs e)
@@ -3606,7 +3631,7 @@ namespace Switch_Backup_Manager
                     value = e.Item.GetSubItem(e.ColumnIndex).Text;
                 }
                 clipboardInfoSD = value;
-            }            
+            }
         }
 
         private void OLVLocalFiles_CellOver(object sender, CellOverEventArgs e)
@@ -3627,7 +3652,7 @@ namespace Switch_Backup_Manager
             if (clipboardInfoEShop != "")
             {
                 Clipboard.SetText(clipboardInfoEShop);
-            }            
+            }
         }
 
         private void copyInfoToClipboardToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -3635,7 +3660,7 @@ namespace Switch_Backup_Manager
             if (clipboardInfoLocal != "")
             {
                 Clipboard.SetText(clipboardInfoLocal);
-            }            
+            }
         }
 
         private void copyInfoToClipboardToolStripMenuItem2_Click(object sender, EventArgs e)
@@ -3651,7 +3676,7 @@ namespace Switch_Backup_Manager
             if (clipboardInfoScene != "")
             {
                 Clipboard.SetText(clipboardInfoScene);
-            }            
+            }
         }
 
         private void contextMenuStripScene_Opening(object sender, CancelEventArgs e)
@@ -3667,13 +3692,15 @@ namespace Switch_Backup_Manager
             if (LocalNSPFilesListSelectedItems == null || LocalNSPFilesListSelectedItems.Count == 0)
             {
                 e.Cancel = true;
-            } else
+            }
+            else
             {
                 if (Util.UserCanDeleteFiles)
                 {
                     toolStripMenuItem97Eshop.Visible = true;
-                    deleteSelectedFilesToolStripMenuItemEshop.Visible = true;                
-                } else
+                    deleteSelectedFilesToolStripMenuItemEshop.Visible = true;
+                }
+                else
                 {
                     toolStripMenuItem97Eshop.Visible = false;
                     deleteSelectedFilesToolStripMenuItemEshop.Visible = false;
@@ -3744,7 +3771,7 @@ namespace Switch_Backup_Manager
                     filterText.Columns = new[] { olvColumnCategoriesEShop };
                     break;
                 case "Imported Date":
-                    filterText.Columns = new[] { olvColumnImportedDateEShop};
+                    filterText.Columns = new[] { olvColumnImportedDateEShop };
                     break;
                 case "Source":
                     filterText.Columns = new[] { olvColumnSourceEShop };
@@ -3868,10 +3895,11 @@ namespace Switch_Backup_Manager
                 try
                 {
                     File.Delete(Util.LOG_FILE);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     Util.logger.Error("Could not delete log file. " + ex.StackTrace);
-                }                
+                }
             }
         }
 
@@ -3953,7 +3981,7 @@ namespace Switch_Backup_Manager
                                 menuEShop.Enabled = false;
                                 break;
                         }
-                        
+
                         toolStripStatusFilesOperation.Text = Properties.Resources.EN_FileOperationsScrapFromWeb;
                         toolStripStatusFilesOperation.Visible = true;
                         toolStripProgressAddingFiles.Visible = true;
@@ -3980,7 +4008,7 @@ namespace Switch_Backup_Manager
 
             Dictionary<Tuple<string, string>, FileData> filesList = (Dictionary<Tuple<string, string>, FileData>)parameters[0];
             string source = (string)parameters[1];
-            
+
             Util.GetExtendedInfo(filesList, source);
             e.Result = source;
         }
@@ -4001,7 +4029,8 @@ namespace Switch_Backup_Manager
                 LocalFilesListSelectedItems.Clear();
                 UpdateLocalGamesList();
                 menuLocalFiles.Enabled = true;
-            } else if (source == "eshop" || source == "eshop_all")
+            }
+            else if (source == "eshop" || source == "eshop_all")
             {
                 LocalNSPFilesListSelectedItems.Clear();
                 UpdateLocalNSPGamesList();
@@ -4163,11 +4192,12 @@ namespace Switch_Backup_Manager
                     try
                     {
                         updates.Add(new Tuple<string, int>(file.TitleID, Convert.ToInt32(file.Version)), file);
-                    } catch (Exception ex)
+                    }
+                    catch (Exception)
                     {
                         Util.logger.Error("Error on " + file.TitleID + ", " + file.Version);
-                    }                    
-                }               
+                    }
+                }
             }
 
             int index = 0;
@@ -4175,12 +4205,13 @@ namespace Switch_Backup_Manager
             int version = -1;
             try
             {
-                 version = Convert.ToInt32(updates.ElementAt(0).Value.Version);
-            } catch
+                version = Convert.ToInt32(updates.ElementAt(0).Value.Version);
+            }
+            catch
             {
                 Util.logger.Error("Error on " + titleID + ", " + updates.ElementAt(0).Value.Version);
             }
-            
+
             foreach (FileData file in updates.Values)
             {
                 if (index <= updates.Count - 2)
@@ -4210,12 +4241,13 @@ namespace Switch_Backup_Manager
                     {
                         item.Selected = true;
                     }
-                } catch
+                }
+                catch
                 {
                     //Util.logger.Error("Error on " + item.Text + ", " + Convert.ToString(((FileData)((OLVListItem)item).RowObject).Version));
                 }
             }
-//            OLVEshop.RefreshSelectedObjects();
+            //            OLVEshop.RefreshSelectedObjects();
         }
 
         private void toolStripMenuItemSelectSceneOnEShop_Click(object sender, EventArgs e)
@@ -4226,7 +4258,7 @@ namespace Switch_Backup_Manager
         private void itemsOnEshjToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dictionary<Tuple<string, string>, FileData> list = ContainsListsIgnoreVersion(LocalNSPFilesList, LocalFilesList);
-//            Dictionary<Tuple<string, string>, FileData> list = ContainsListsIgnoreVersion(LocalFilesList, LocalNSPFilesList);
+            //            Dictionary<Tuple<string, string>, FileData> list = ContainsListsIgnoreVersion(LocalFilesList, LocalNSPFilesList);
             FileData dummy;
             OLVLocalFiles.Select();
             OLVLocalFiles.HideSelection = false;

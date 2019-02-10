@@ -35,10 +35,10 @@ namespace Switch_Backup_Manager
             gameExample.ContentType = "Patch";
             gameExample.Version = "0";
 
-            gameExampleNSP = new FileData("C:\\Switch\\1-2-Switch [01000320000cc000][v0].nsp", "1-2-Switch [01000320000cc000][v0]", "1-2-Switch [01000320000cc000][v0].nsp", 
-                "1,38 GB", 1481339176, "1,38 GB", 1481339176, "01000320000CC000" , "01000320000CC000", "1-2-Switch", "Nintendo", "1.0.0", "No Prod. ID", "0.12.12.0", "e-shop", 
+            gameExampleNSP = new FileData("C:\\Switch\\1-2-Switch [01000320000cc000][v0].nsp", "1-2-Switch [01000320000cc000][v0]", "1-2-Switch [01000320000cc000][v0].nsp",
+                "1,38 GB", 1481339176, "1,38 GB", 1481339176, "01000320000CC000", "01000320000CC000", "1-2-Switch", "Nintendo", "1.0.0", "No Prod. ID", "0.12.12.0", "e-shop",
                 "0 (1.0.0-2.3.0)", new Dictionary<string, string> { { "American English", "cache\\icon_01000320000CC000_AmericanEnglish.bmp" }, { "Japanese", "cache\\icon_01000320000CC000_Japanese.bmp" } },
-                new List<string> { "American English", "Japanese" }, "en, ja", true, "", "", "0", "e-shop", "", false, "Download", 0, "Application", "0", "0", true, "", "Nintendo", "Mar 03, 2017", 
+                new List<string> { "American English", "Japanese" }, "en, ja", true, "", "", "0", "e-shop", "", false, "Download", 0, "Application", "0", "0", true, "", "Nintendo", "Mar 03, 2017",
                 "2 players simultaneous", new List<string> { "Party", "Multiplayer", "Action" }, 0, "");
 
             cbxTagsXCI.Items.Clear();
@@ -66,7 +66,7 @@ namespace Switch_Backup_Manager
             int maxFileNameSize = 0;
             try
             {
-                maxFileNameSize = Convert.ToInt16(textLimitFileNameSizeNSP.Value);                
+                maxFileNameSize = Convert.ToInt16(textLimitFileNameSizeNSP.Value);
             }
             catch { }
             Util.MaxSizeFilenameNSP = maxFileNameSize;
@@ -104,7 +104,7 @@ namespace Switch_Backup_Manager
             Util.UseTitleKeys = this.cbUseTitleKeys.Checked;
             Util.ini.IniWriteValue("Config", "useTitleKeys", cbUseTitleKeys.Checked ? "true" : "false");
 
-            for (int j = 1; j <= 5; j++ )
+            for (int j = 1; j <= 5; j++)
             {
                 Util.ini.IniWriteValue("AutoScan", "Folder_0" + Convert.ToString(j), "");
             }
@@ -112,7 +112,7 @@ namespace Switch_Backup_Manager
             int i = 1;
             foreach (string item in checkedListBoxAutoScanFolders.Items)
             {
-                Util.ini.IniWriteValue("AutoScan", "Folder_0" + Convert.ToString(i), item+"?" + (checkedListBoxAutoScanFolders.CheckedItems.IndexOf(item) == -1 ? "0" : "1"));
+                Util.ini.IniWriteValue("AutoScan", "Folder_0" + Convert.ToString(i), item + "?" + (checkedListBoxAutoScanFolders.CheckedItems.IndexOf(item) == -1 ? "0" : "1"));
                 i++;
             }
         }
@@ -138,9 +138,9 @@ namespace Switch_Backup_Manager
                 case "{gamename} ({region}) ({firmware})":
                     rbRenamingGameNameRegionFirmwareXCI.Checked = true;
                     break;
-//                case "{CDNSP}":
-//                    rbRenamingCDNSP.Checked = true;
-//                    break;
+                //                case "{CDNSP}":
+                //                    rbRenamingCDNSP.Checked = true;
+                //                    break;
                 default:
                     textBoxCustomPaternXCI.Text = autoRenamingPattern;
                     rbRenamingCustomXCI.Checked = true;
@@ -194,7 +194,7 @@ namespace Switch_Backup_Manager
             this.btnColorEshop.BackColor = Util.HighlightNSPOnScene_color;
             this.btnColorBoth.BackColor = Util.HighlightBothOnScene_color;
 
-            for (int i = 1; i <= 5; i++ )
+            for (int i = 1; i <= 5; i++)
             {
                 string value = Util.ini.IniReadValue("AutoScan", "Folder_0" + i);
                 if (value.Trim() != "")
@@ -203,10 +203,11 @@ namespace Switch_Backup_Manager
                     if (value.Substring(ind + 1, 1) == "1")
                     {
                         checkedListBoxAutoScanFolders.Items.Add(value.Substring(0, ind), true);
-                    } else
+                    }
+                    else
                     {
                         checkedListBoxAutoScanFolders.Items.Add(value.Substring(0, ind), false);
-                    }                    
+                    }
                 }
             }
         }

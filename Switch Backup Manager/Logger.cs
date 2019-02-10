@@ -34,7 +34,7 @@ namespace Switch_Backup_Manager
         }
 
         public Logger(ref RichTextBox output)
-            :this()
+            : this()
         {
             this.outputTextBox = output;
         }
@@ -45,9 +45,10 @@ namespace Switch_Backup_Manager
         /// <param name="text">Message</param>
         public void Debug(string text)
         {
-            if (Util.log_Level == "debug") {
+            if (Util.log_Level == "debug")
+            {
                 WriteFormattedLog(LogLevel.DEBUG, text);
-            }            
+            }
         }
 
         /// <summary>
@@ -141,15 +142,17 @@ namespace Switch_Backup_Manager
                         if (text.Contains("[DEBUG]"))
                         {
                             color = Color.DarkGreen;
-                        } else if (text.Contains("[ERROR]"))
+                        }
+                        else if (text.Contains("[ERROR]"))
                         {
                             color = Color.DarkRed;
-                        } else if (text.Contains("[WARNING]"))
+                        }
+                        else if (text.Contains("[WARNING]"))
                         {
                             color = Color.IndianRed;
                         }
-                        
-                        this.outputTextBox.AppendText(text+"\n", color);
+
+                        this.outputTextBox.AppendText(text + "\n", color);
                     }
                 }
             }

@@ -20,12 +20,12 @@ namespace Switch_Backup_Manager
 
             public enum TitleType
             {
-                SYSTEM_PROGRAMS         = 0x01,
+                SYSTEM_PROGRAMS = 0x01,
                 SYSTEM_DATA_ARCHIVES,
                 SYSTEM_UPDATE,
                 FIRMWARE_PACKAGE_A,
                 FIRMWARE_PACKAGE_B,
-                REGULAR_APPLICATION     = 0x80,
+                REGULAR_APPLICATION = 0x80,
                 UPDATE_TITLE,
                 ADD_ON_CONTENT,
                 DELTA_TITLE
