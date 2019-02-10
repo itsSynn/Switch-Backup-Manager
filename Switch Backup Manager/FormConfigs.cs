@@ -36,9 +36,9 @@ namespace Switch_Backup_Manager
             gameExample.Version = "0";
 
             gameExampleNSP = new FileData("C:\\Switch\\1-2-Switch [01000320000cc000][v0].nsp", "1-2-Switch [01000320000cc000][v0]", "1-2-Switch [01000320000cc000][v0].nsp",
-                "1,38 GB", 1481339176, "1,38 GB", 1481339176, "01000320000CC000", "01000320000CC000", "1-2-Switch", "Nintendo", "1.0.0", "No Prod. ID", "0.12.12.0", "e-shop",
+                "1,38 GB", 1481339176, "1,38 GB", 1481339176, "01000320000CC000", "01000320000CC000", "1-2-Switch", "Nintendo", "1.0.0", "No Prod. ID", "0.12.12.0", "eShop",
                 "0 (1.0.0-2.3.0)", new Dictionary<string, string> { { "American English", "cache\\icon_01000320000CC000_AmericanEnglish.bmp" }, { "Japanese", "cache\\icon_01000320000CC000_Japanese.bmp" } },
-                new List<string> { "American English", "Japanese" }, "en, ja", true, "", "", "0", "e-shop", "", false, "Download", 0, "Application", "0", "0", true, "", "Nintendo", "Mar 03, 2017",
+                new List<string> { "American English", "Japanese" }, "en, ja", true, "", "", "0", "eShop", "", false, "Download", 0, "Application", "0", "0", true, "", "Nintendo", "Mar 03, 2017",
                 "2 players simultaneous", new List<string> { "Party", "Multiplayer", "Action" }, 0, "");
 
             cbxTagsXCI.Items.Clear();
@@ -88,16 +88,22 @@ namespace Switch_Backup_Manager
             Util.HighlightXCIOnScene = cbHighlightXCIOnScene.Checked;
             Util.HighlightNSPOnScene = cbHighlightNSPOnScene.Checked;
             Util.HighlightBothOnScene = cbHighlightBothOnScene.Checked;
+            Util.HighlightVersionOnXCI = cbHighlightVersionOnXCI.Checked;
+            Util.HighlightVersionOnNSP = cbHighlightVersionOnNSP.Checked;
             Util.HighlightXCIOnScene_color = btnColorXCI.BackColor;
             Util.HighlightNSPOnScene_color = btnColorEshop.BackColor;
             Util.HighlightBothOnScene_color = btnColorBoth.BackColor;
+            Util.HighlightVersion_color = btnColorVersion.BackColor;
 
             Util.ini.IniWriteValue("Visual", "highlightXCIOnScene", Util.HighlightXCIOnScene ? "true" : "false");
             Util.ini.IniWriteValue("Visual", "highlightNSPOnScene", Util.HighlightNSPOnScene ? "true" : "false");
             Util.ini.IniWriteValue("Visual", "highlightBOTHOnScene", Util.HighlightBothOnScene ? "true" : "false");
+            Util.ini.IniWriteValue("Visual", "highlightVersionOnXCI", Util.HighlightVersionOnXCI ? "true" : "false");
+            Util.ini.IniWriteValue("Visual", "highlightVersionOnNSP", Util.HighlightVersionOnNSP ? "true" : "false");
             Util.ini.IniWriteValue("Visual", "highlightXCIOnScene_color", System.Drawing.ColorTranslator.ToHtml(Util.HighlightXCIOnScene_color));
             Util.ini.IniWriteValue("Visual", "highlightNSPOnScene_color", System.Drawing.ColorTranslator.ToHtml(Util.HighlightNSPOnScene_color));
             Util.ini.IniWriteValue("Visual", "highlightBOTHOnScene_color", System.Drawing.ColorTranslator.ToHtml(Util.HighlightBothOnScene_color));
+            Util.ini.IniWriteValue("Visual", "highlightVersion_color", System.Drawing.ColorTranslator.ToHtml(Util.HighlightVersion_color));
 
             Util.AutoUpdateNSDBOnStartup = this.cbAutoUpdateScene.Checked;
             Util.ini.IniWriteValue("Config", "autoUpdateNSWDB", cbAutoUpdateScene.Checked ? "true" : "false");
@@ -138,9 +144,9 @@ namespace Switch_Backup_Manager
                 case "{gamename} ({region}) ({firmware})":
                     rbRenamingGameNameRegionFirmwareXCI.Checked = true;
                     break;
-                //                case "{CDNSP}":
-                //                    rbRenamingCDNSP.Checked = true;
-                //                    break;
+                // case "{CDNSP}":
+                //     rbRenamingCDNSP.Checked = true;
+                //     break;
                 default:
                     textBoxCustomPaternXCI.Text = autoRenamingPattern;
                     rbRenamingCustomXCI.Checked = true;
@@ -190,9 +196,12 @@ namespace Switch_Backup_Manager
             cbHighlightXCIOnScene.Checked = Util.HighlightXCIOnScene;
             cbHighlightNSPOnScene.Checked = Util.HighlightNSPOnScene;
             cbHighlightBothOnScene.Checked = Util.HighlightBothOnScene;
+            cbHighlightVersionOnXCI.Checked = Util.HighlightVersionOnXCI;
+            cbHighlightVersionOnNSP.Checked = Util.HighlightVersionOnNSP;
             this.btnColorXCI.BackColor = Util.HighlightXCIOnScene_color;
             this.btnColorEshop.BackColor = Util.HighlightNSPOnScene_color;
             this.btnColorBoth.BackColor = Util.HighlightBothOnScene_color;
+            this.btnColorVersion.BackColor = Util.HighlightVersion_color;
 
             for (int i = 1; i <= 5; i++)
             {
@@ -437,6 +446,21 @@ namespace Switch_Backup_Manager
             // Update the text box color if the user clicks OK 
             if (MyDialog.ShowDialog() == DialogResult.OK)
                 btnColorBoth.BackColor = MyDialog.Color;
+        }
+
+        private void btnColorVersion_Click(object sender, EventArgs e)
+        {
+            ColorDialog MyDialog = new ColorDialog();
+            // Keeps the user from selecting a custom color.
+            MyDialog.AllowFullOpen = false;
+            // Allows the user to get help. (The default is false.)
+            MyDialog.ShowHelp = true;
+            // Sets the initial color select to the current text color.
+            MyDialog.Color = btnColorVersion.BackColor;
+
+            // Update the text box color if the user clicks OK 
+            if (MyDialog.ShowDialog() == DialogResult.OK)
+                btnColorVersion.BackColor = MyDialog.Color;
         }
 
         private void cbUserCanDeleteFiles_CheckedChanged(object sender, EventArgs e)
