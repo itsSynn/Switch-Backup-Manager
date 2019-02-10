@@ -145,7 +145,7 @@ namespace Switch_Backup_Manager
                     OLVEshop.RestoreState(File.ReadAllBytes("confNSP.bin"));
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Util.logger.Warning("Could not recover environment settings.");
             }
@@ -4193,7 +4193,7 @@ namespace Switch_Backup_Manager
                     {
                         updates.Add(new Tuple<string, int>(file.TitleID, Convert.ToInt32(file.Version)), file);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         Util.logger.Error("Error on " + file.TitleID + ", " + file.Version);
                     }
