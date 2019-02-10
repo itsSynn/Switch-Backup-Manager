@@ -470,7 +470,7 @@
             // 
             // btnColorXCI
             // 
-            this.btnColorXCI.BackColor = System.Drawing.Color.Green;
+            this.btnColorXCI.BackColor = System.Drawing.Color.LightGreen;
             this.btnColorXCI.Location = new System.Drawing.Point(148, 20);
             this.btnColorXCI.Name = "btnColorXCI";
             this.btnColorXCI.Size = new System.Drawing.Size(24, 24);

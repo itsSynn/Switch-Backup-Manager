@@ -68,7 +68,7 @@ namespace Switch_Backup_Manager
         public static bool HighlightMissingNSPUpdate = false;
         public static bool HighlightVersionOnNSP = false;
 
-        public static Color HighlightXCIOnScene_color = Color.Green;
+        public static Color HighlightXCIOnScene_color = Color.LightGreen;
         public static Color HighlightNSPOnScene_color = Color.Orange;
         public static Color HighlightBothOnScene_color = Color.Yellow;
         public static Color HighlightVersion_color = Color.LightPink;
