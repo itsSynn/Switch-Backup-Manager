@@ -515,34 +515,24 @@ namespace Switch_Backup_Manager
                 {
                     case "WLD":
                         return Properties.Resources.WLD;
-                    //break;
                     case "USA":
                         return Properties.Resources.USA;
-                    //break;
                     case "JPN":
                         return Properties.Resources.JPN;
-                    //break;
                     case "EUR":
                         return Properties.Resources.EUR;
-                    //break;
                     case "CHN":
                         return Properties.Resources.CHN;
-                    //break;
                     case "GER":
                         return Properties.Resources.GER;
-                    //break;
                     case "KOR":
                         return Properties.Resources.KOR;
-                    //break;
                     case "SPA":
                         return Properties.Resources.SPA;
-                    //break;
                     case "UKV":
                         return Properties.Resources.UKV;
-                    //break;
                     default:
                         return Properties.Resources.WLD;
-                        //break;
                 }
             };
 
@@ -1124,39 +1114,52 @@ namespace Switch_Backup_Manager
             toolStripStatusLabel1.Text = "0 Selected (0MB)";
 
             panelEditTitle.Visible = false;
-            toolStripStatusLabel3.Visible = false;
-            toolStripStatusLabel4.Visible = false;
-            toolStripStatusLabel5.Visible = false;
+            toolStripStatusLabelFilesInXCI.Visible = false;
+            toolStripStatusLabelFilesInNSP.Visible = false;
+            toolStripStatusLabelFilesInBoth.Visible = false;
+            toolStripStatusLabelVersion.Visible = false;
 
             switch (tabControl1.SelectedIndex)
             {
-                case 0: //Files
+                case 0: // XCI
+                    if (Util.HighlightVersionOnXCI)
+                    {
+                        toolStripStatusLabelVersion.BackColor = Util.HighlightVersion_color;
+                        toolStripStatusLabelVersion.Visible = true;
+                    }
+
                     SumarizeLocalGamesList("local");
                     break;
-                case 1: //SD Card
+                case 1: // NSP
+                    if (Util.HighlightVersionOnNSP)
+                    {
+                        toolStripStatusLabelVersion.BackColor = Util.HighlightVersion_color;
+                        toolStripStatusLabelVersion.Visible = true;
+                    }
+
+                    SumarizeLocalGamesList("eshop");
+                    break;
+                case 2: // SD Card
                     SumarizeLocalGamesList("sdcard");
                     break;
-                case 2: //Scene
+                case 3: // Scene
                     if (Util.HighlightXCIOnScene)
                     {
-                        toolStripStatusLabel3.BackColor = Util.HighlightXCIOnScene_color;
-                        toolStripStatusLabel3.Visible = true;
+                        toolStripStatusLabelFilesInXCI.BackColor = Util.HighlightXCIOnScene_color;
+                        toolStripStatusLabelFilesInXCI.Visible = true;
                     }
                     if (Util.HighlightNSPOnScene)
                     {
-                        toolStripStatusLabel4.BackColor = Util.HighlightNSPOnScene_color;
-                        toolStripStatusLabel4.Visible = true;
+                        toolStripStatusLabelFilesInNSP.BackColor = Util.HighlightNSPOnScene_color;
+                        toolStripStatusLabelFilesInNSP.Visible = true;
                     }
                     if (Util.HighlightBothOnScene)
                     {
-                        toolStripStatusLabel5.BackColor = Util.HighlightBothOnScene_color;
-                        toolStripStatusLabel5.Visible = true;
+                        toolStripStatusLabelFilesInBoth.BackColor = Util.HighlightBothOnScene_color;
+                        toolStripStatusLabelFilesInBoth.Visible = true;
                     }
 
                     SumarizeLocalGamesList("scene");
-                    break;
-                case 3: //Eshop
-                    SumarizeLocalGamesList("eshop");
                     break;
             }
         }
@@ -1413,7 +1416,7 @@ namespace Switch_Backup_Manager
                 }
 
 
-                //                UpdateSDCardList();
+                // UpdateSDCardList();
             }
             else
             {
@@ -1771,18 +1774,27 @@ namespace Switch_Backup_Manager
 
         private void objectListView1_FormatCell(object sender, BrightIdeasSoftware.FormatCellEventArgs e)
         {
-            //Highlights when not trimmed
+            FileData data = (FileData)e.Model;
+
+            // Highlights when not trimmed
             if (e.ColumnIndex == this.olvColumnIsTrimmedLocal.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (!data.IsTrimmed)
                     e.SubItem.BackColor = Color.IndianRed;
             }
             else if (e.ColumnIndex == this.olvColumnSourceLocal.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (data.Source.Contains("NSP") || data.Source.Contains("NCA"))
                     e.SubItem.BackColor = Color.IndianRed;
+            }
+
+            // Highlights when potential version update is available
+            if (Util.HighlightVersionOnXCI
+                && (e.ColumnIndex == this.olvColumnVersionLocal.Index || e.ColumnIndex == this.olvColumnLatestLocal.Index)
+                && !data.isLatest()
+                && (!Util.HighlightMissingNSPUpdate || (Util.HighlightMissingNSPUpdate && !latestNSPUpdateExists(data))))
+            {
+                e.SubItem.BackColor = Util.HighlightVersion_color;
             }
         }
 
@@ -3860,9 +3872,10 @@ namespace Switch_Backup_Manager
 
         private void OLVEshop_FormatCell(object sender, FormatCellEventArgs e)
         {
+            FileData data = (FileData)e.Model;
+
             if (e.ColumnIndex == this.olvColumnGameNameEShop.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (data.ContentType == "AddOnContent") //DLC
                     e.SubItem.ForeColor = Color.ForestGreen;
                 if (data.ContentType == "Patch") //DLC
@@ -3870,9 +3883,18 @@ namespace Switch_Backup_Manager
             }
             else if (e.ColumnIndex == this.olvColumnSourceEShop.Index)
             {
-                FileData data = (FileData)e.Model;
                 if (data.Source.Contains("XCI") || data.Source.Contains("NCA"))
                     e.SubItem.BackColor = Color.IndianRed;
+            }
+
+            // Highlights when potential version update is available
+            if (Util.HighlightVersionOnNSP
+                && data.ContentType.Equals("Application")
+                && !data.isLatest()
+                && (e.ColumnIndex == this.olvColumnVersionEShop.Index || e.ColumnIndex == this.olvColumnLatestEShop.Index)
+                && !latestNSPUpdateExists(data))
+            {
+                e.SubItem.BackColor = Util.HighlightVersion_color;
             }
         }
 
@@ -4200,54 +4222,54 @@ namespace Switch_Backup_Manager
                 }
             }
 
-            int index = 0;
-            string titleID = updates.ElementAt(0).Value.TitleID;
-            int version = -1;
-            try
+            if (updates.Count > 0)
             {
-                version = Convert.ToInt32(updates.ElementAt(0).Value.Version);
-            }
-            catch
-            {
-                Util.logger.Error("Error on " + titleID + ", " + updates.ElementAt(0).Value.Version);
-            }
+                int index = 0;
+                string titleID = updates.ElementAt(0).Value.TitleID;
+                int version = -1;
 
-            foreach (FileData file in updates.Values)
-            {
-                if (index <= updates.Count - 2)
-                {
-                    updates_to_delete.Add(new Tuple<string, int>(file.TitleID, Convert.ToInt32(file.Version)), "");
-                }
-
-                if (file.TitleID != titleID)
-                {
-                    updates_to_delete.Remove(new Tuple<string, int>(titleID, Convert.ToInt32(version)));
-                }
-
-                titleID = updates.ElementAt(index).Value.TitleID;
-                version = Convert.ToInt32(updates.ElementAt(index).Value.Version);
-                index++;
-            }
-
-            OLVEshop.Select();
-            OLVEshop.HideSelection = false;
-            OLVEshop.SelectedItems.Clear();
-            foreach (ListViewItem item in OLVEshop.Items)
-            {
-                string dummy;
                 try
                 {
-                    if (updates_to_delete.TryGetValue(new Tuple<string, int>(item.Text, Convert.ToInt32(Convert.ToString(((FileData)((OLVListItem)item).RowObject).Version))), out dummy))
-                    {
-                        item.Selected = true;
-                    }
+                    version = Convert.ToInt32(updates.ElementAt(0).Value.Version);
                 }
                 catch
                 {
-                    //Util.logger.Error("Error on " + item.Text + ", " + Convert.ToString(((FileData)((OLVListItem)item).RowObject).Version));
+                    Util.logger.Error("Error on " + titleID + ", " + updates.ElementAt(0).Value.Version);
+                }
+
+                foreach (FileData file in updates.Values)
+                {
+                    if (index <= updates.Count - 2)
+                    {
+                        updates_to_delete.Add(new Tuple<string, int>(file.TitleID, Convert.ToInt32(file.Version)), "");
+                    }
+
+                    if (file.TitleID != titleID)
+                    {
+                        updates_to_delete.Remove(new Tuple<string, int>(titleID, Convert.ToInt32(version)));
+                    }
+
+                    titleID = updates.ElementAt(index).Value.TitleID;
+                    version = Convert.ToInt32(updates.ElementAt(index).Value.Version);
+                    index++;
+                }
+
+                OLVEshop.Select();
+                OLVEshop.HideSelection = false;
+                OLVEshop.SelectedItems.Clear();
+                foreach (ListViewItem item in OLVEshop.Items)
+                {
+                    string dummy;
+                    try
+                    {
+                        if (updates_to_delete.TryGetValue(new Tuple<string, int>(item.Text, Convert.ToInt32(Convert.ToString(((FileData)((OLVListItem)item).RowObject).Version))), out dummy))
+                        {
+                            item.Selected = true;
+                        }
+                    }
+                    catch { }
                 }
             }
-            //            OLVEshop.RefreshSelectedObjects();
         }
 
         private void toolStripMenuItemSelectSceneOnEShop_Click(object sender, EventArgs e)
@@ -4258,7 +4280,7 @@ namespace Switch_Backup_Manager
         private void itemsOnEshjToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Dictionary<Tuple<string, string>, FileData> list = ContainsListsIgnoreVersion(LocalNSPFilesList, LocalFilesList);
-            //            Dictionary<Tuple<string, string>, FileData> list = ContainsListsIgnoreVersion(LocalFilesList, LocalNSPFilesList);
+            // Dictionary<Tuple<string, string>, FileData> list = ContainsListsIgnoreVersion(LocalFilesList, LocalNSPFilesList);
             FileData dummy;
             OLVLocalFiles.Select();
             OLVLocalFiles.HideSelection = false;
@@ -4360,6 +4382,26 @@ namespace Switch_Backup_Manager
             string source = (string)parameters[2];
 
             Util.SplitXCIFiles(filesList, destinyPath, source);
+        }
+
+        private bool latestNSPUpdateExists(FileData data)
+        {
+            bool latestUpdateExists = false;
+
+            foreach (FileData file in LocalNSPFilesList.Values)
+            {
+                if (file.ContentType.Equals("Patch")
+                    && file.TitleIDBaseGame.Equals(data.TitleID)
+                    && Double.TryParse(data.Latest, out double currentLatest)
+                    && Double.TryParse(file.Version, out double nspVersion)
+                    && currentLatest == nspVersion)
+                {
+                    latestUpdateExists = true;
+                    break;
+                }
+            }
+
+            return latestUpdateExists;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Switch_Backup_Manager
 {
     internal static class Util
     {
-        public const string VERSION = "1.2.1";   //Actual application version
+        public const string VERSION = "1.2.2";   //Actual application version
         public const string MIN_DB_Version = "1.2.1"; //This is the minimum version of the DB that can work
 
         public const string INI_FILE = "sbm.ini";
@@ -64,10 +64,14 @@ namespace Switch_Backup_Manager
         public static bool HighlightXCIOnScene = false;
         public static bool HighlightNSPOnScene = false;
         public static bool HighlightBothOnScene = false;
+        public static bool HighlightVersionOnXCI = false;
+        public static bool HighlightMissingNSPUpdate = false;
+        public static bool HighlightVersionOnNSP = false;
 
         public static Color HighlightXCIOnScene_color = Color.Green;
         public static Color HighlightNSPOnScene_color = Color.Orange;
         public static Color HighlightBothOnScene_color = Color.Yellow;
+        public static Color HighlightVersion_color = Color.LightPink;
 
         private static string[] Language = new string[16]
         {
@@ -142,7 +146,7 @@ namespace Switch_Backup_Manager
                     string ageVerification = doc.DocumentNode.SelectNodes("//*[@id=\"page-container\"]/div[3]/section/h1/span")[0].InnerText;
                     if (ageVerification.Trim().ToLower() == "age verification")
                     {
-                        logger.Info("This title requires Age Verification!!! Try on GB e-shop");
+                        logger.Info("This title requires Age Verification!!! Try on GB eShop");
                         tryNextCountry = true;
                     }
                 }
@@ -1076,7 +1080,7 @@ namespace Switch_Backup_Manager
         {
             XDocument xml_ = XDocument.Load(@source_xml);
 
-            string removeFrom = (source_xml == LOCAL_FILES_DB ? "local" : "e-shop");
+            string removeFrom = (source_xml == LOCAL_FILES_DB ? "local" : "eShop");
             logger.Info("Started to remove missing files from " + removeFrom + " database");
 
             int i = 0;
@@ -1195,8 +1199,8 @@ namespace Switch_Backup_Manager
             {
                 if (data.DistributionType == "Download")
                 {
-                    data.Cardtype = "e-shop";
-                    data.CartSize = "e-shop";
+                    data.Cardtype = "eShop";
+                    data.CartSize = "eShop";
                 }
             }
         }
@@ -1351,8 +1355,8 @@ namespace Switch_Backup_Manager
         /// </summary>
         /// <param name="xml">XDocument object</param>
         /// <param name="showBaseGames">bool: Include Base games on the list</param>
-        /// <param name="showDLC">bool: Include DLC files on the list</param>
-        /// <param name="showUpdate">bool: Include Update files on the list</param>
+        /// <param name="showDLC">bool: Include DLC files in the list</param>
+        /// <param name="showUpdate">bool: Include Update files in the list</param>
         /// <returns></returns>
         public static Dictionary<Tuple<string, string>, FileData> LoadXMLToFileDataDictionary(XDocument xml, bool showBaseGames, bool showDLC, bool showUpdate)
         {
@@ -1519,7 +1523,7 @@ namespace Switch_Backup_Manager
             UseTitleKeys = (ini.IniReadValue("Config", "useTitleKeys") == "true" ? true : false);
             if (UseTitleKeys && !File.Exists(title_keys))
             {
-                MessageBox.Show(TITLE_KEYS + " not found!\nTo correctly name DLC e-shop files you need to provide a file called " + TITLE_KEYS + " with following format inside: " +
+                MessageBox.Show(TITLE_KEYS + " not found!\nTo correctly name DLC eShop files you need to provide a file called " + TITLE_KEYS + " with following format inside: " +
                     "TitleID|TitleKey|Name.\nIf not provided, game name and other info for DLC will be empty.");
             }
 
@@ -1564,9 +1568,13 @@ namespace Switch_Backup_Manager
             string highlightXCIOnScene = ini.IniReadValue("Visual", "highlightXCIOnScene").Trim().ToLower();
             string highlightNSPOnScene = ini.IniReadValue("Visual", "highlightNSPOnScene").Trim().ToLower();
             string highlightBothOnScene = ini.IniReadValue("Visual", "highlightBOTHOnScene").Trim().ToLower();
+            string highlightVersionOnXCI = ini.IniReadValue("Visual", "highlightVersionOnXCI").Trim().ToLower();
+            string highlightMissingNSPUpdate = ini.IniReadValue("Visual", "highlightMissingNSPUpdate").Trim().ToLower();
+            string highlightVersionOnNSP = ini.IniReadValue("Visual", "highlightVersionOnNSP").Trim().ToLower();
             string highlightXCIOnScene_color = ini.IniReadValue("Visual", "highlightXCIOnScene_color").Trim().ToLower();
             string highlightNSPOnScene_color = ini.IniReadValue("Visual", "highlightNSPOnScene_color").Trim().ToLower();
             string highlightBothOnScene_color = ini.IniReadValue("Visual", "highlightBOTHOnScene_color").Trim().ToLower();
+            string highlightVersion_color = ini.IniReadValue("Visual", "highlightVersion_color").Trim().ToLower();
 
             if (userCanDeleteFiles != "") { UserCanDeleteFiles = (userCanDeleteFiles == "true"); } else { ini.IniWriteValue("Config", "userCanDeleteFiles", "false"); };
             if (sendDeletedFilesToRecycleBin != "") { SendDeletedFilesToRecycleBin = (sendDeletedFilesToRecycleBin == "true"); } else { ini.IniWriteValue("Config", "sendDeletedFilesToRecycleBin", "true"); };
@@ -1579,10 +1587,13 @@ namespace Switch_Backup_Manager
             if (highlightXCIOnScene != "") { HighlightXCIOnScene = (highlightXCIOnScene == "true"); } else { ini.IniWriteValue("Visual", "highlightXCIOnScene", "false"); };
             if (highlightNSPOnScene != "") { HighlightNSPOnScene = (highlightNSPOnScene == "true"); } else { ini.IniWriteValue("Visual", "highlightNSPOnScene", "false"); };
             if (highlightBothOnScene != "") { HighlightBothOnScene = (highlightBothOnScene == "true"); } else { ini.IniWriteValue("Visual", "highlightBothOnScene", "false"); };
-
+            if (highlightVersionOnXCI != "") { HighlightVersionOnXCI = (highlightVersionOnXCI == "true"); } else { ini.IniWriteValue("Visual", "highlightVersionOnXCI", "false"); };
+            if (highlightMissingNSPUpdate != "") { HighlightMissingNSPUpdate = (highlightMissingNSPUpdate == "true"); } else { ini.IniWriteValue("Visual", "highlightMissingNSPUpdate", "false"); };
+            if (highlightVersionOnNSP != "") { HighlightVersionOnNSP = (highlightVersionOnNSP == "true"); } else { ini.IniWriteValue("Visual", "highlightVersionOnNSP", "false"); };
             if (highlightXCIOnScene_color != "") { HighlightXCIOnScene_color = System.Drawing.ColorTranslator.FromHtml(highlightXCIOnScene_color); } else { ini.IniWriteValue("Visual", "highlightXCIOnScene_color", System.Drawing.ColorTranslator.ToHtml(HighlightXCIOnScene_color)); };
             if (highlightNSPOnScene_color != "") { HighlightNSPOnScene_color = System.Drawing.ColorTranslator.FromHtml(highlightNSPOnScene_color); } else { ini.IniWriteValue("Visual", "highlightNSPOnScene_color", System.Drawing.ColorTranslator.ToHtml(HighlightNSPOnScene_color)); };
             if (highlightBothOnScene_color != "") { HighlightBothOnScene_color = System.Drawing.ColorTranslator.FromHtml(highlightBothOnScene_color); } else { ini.IniWriteValue("Visual", "highlightBothOnScene_color", System.Drawing.ColorTranslator.ToHtml(HighlightBothOnScene_color)); };
+            if (highlightVersion_color != "") { HighlightVersion_color = System.Drawing.ColorTranslator.FromHtml(highlightVersion_color); } else { ini.IniWriteValue("Visual", "highlightVersion_color", System.Drawing.ColorTranslator.ToHtml(HighlightVersion_color)); };
 
             try
             {
@@ -2077,7 +2088,7 @@ namespace Switch_Backup_Manager
         }
 
         /// <summary>
-        /// Add all XCI files on a given list to a Dictionary of FileData <TitleID, FileData>
+        /// Add all XCI files in a given list to a Dictionary of FileData <TitleID, FileData>
         /// </summary>
         /// <param name="files string[]">List of files to be appended</param>
         /// <param name="file_type string">valid values: xci, nsp</param>
@@ -2188,7 +2199,7 @@ namespace Switch_Backup_Manager
 
                 if (element != null)
                 {
-                    logger.Info("Removing Title ID " + titleID + " from local e-shop database.");
+                    logger.Info("Removing Title ID " + titleID + " from local NSP database.");
                     element.Remove();
                 }
             }
@@ -2305,8 +2316,8 @@ namespace Switch_Backup_Manager
             data.FileName = Path.GetFileNameWithoutExtension(file);
             data.FileNameWithExt = Path.GetFileName(file);
             data.IsTrimmed = true;
-            data.Cardtype = "e-shop";
-            data.CartSize = "e-shop";
+            data.Cardtype = "eShop";
+            data.CartSize = "eShop";
 
             FileInfo fi = new FileInfo(file);
             //Get File Size
