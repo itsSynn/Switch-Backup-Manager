@@ -146,7 +146,7 @@ namespace Switch_Backup_Manager
                         tryNextCountry = true;
                     }
                 }
-                catch (Exception e) { }
+                catch (Exception) { }
 
                 if (!tryNextCountry)
                 {
@@ -397,7 +397,7 @@ namespace Switch_Backup_Manager
 
                 data.HasExtendedInfo = result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Util.logger.Warning("Could not retrieve or parse info from the web for this title (" + data.TitleID + ").");
             }
@@ -963,7 +963,7 @@ namespace Switch_Backup_Manager
         public static void DeleteSelectedFiles(Dictionary<Tuple<string, string>, FileData> files, string source) //source possible values: "local", "sdcard", "eshop"
         {
             int filesCount = files.Count();
-            int i = 0;
+
             logger.Info("Started to delete selected " + source + " files.");
 
             if (source != "sdcard")
@@ -1227,7 +1227,7 @@ namespace Switch_Backup_Manager
                                 {
                                     languages = languages.Remove(languages.Length - 1);
                                 }
-                                catch (Exception e)
+                                catch (Exception)
                                 {
                                     logger.Debug("Exception on languages.Remove for Title ID " + data.TitleID);
                                     languages = "";
@@ -1252,7 +1252,7 @@ namespace Switch_Backup_Manager
                                 {
                                     categories = categories.Remove(categories.Length - 1);
                                 }
-                                catch (Exception e)
+                                catch (Exception)
                                 {
                                     logger.Debug("Exception on categories.Remove for Title ID " + data.TitleID);
                                     languages = "";
@@ -1376,7 +1376,7 @@ namespace Switch_Backup_Manager
                     {
                         result.Add(new Tuple<string, string>(xe.Element("titleid").Value, xe.Element("firmware").Value.ToLower()), GetFileData(xe, true));
                     }
-                    catch { System.ArgumentException ex; }
+                    catch
                     {
                         //If TitleID is already on the list, ignore
                     }
@@ -1638,7 +1638,7 @@ namespace Switch_Backup_Manager
                 {
                     client.DownloadFile(@NSWDB_DOWNLOAD_SITE, NSWDB_FILE);
                 }
-                catch (WebException ex)
+                catch (WebException)
                 {
                     MessageBox.Show("Could not download NSWDB File from nswdb.com! \n Please check your internet connection.");
                 }
@@ -2056,7 +2056,7 @@ namespace Switch_Backup_Manager
                             {
                                 dictionary.Add(new Tuple<string, string>(data.TitleID, fileType == "xci" ? data.Firmware : data.Version), data);
                             }
-                            catch (ArgumentException ex)
+                            catch (ArgumentException)
                             {
                                 logger.Error("TitleID " + data.TitleID + " is already in the database");
                             }
@@ -2119,7 +2119,7 @@ namespace Switch_Backup_Manager
                         {
                             dictionary.Add(new Tuple<string, string>(data.TitleID, fileType == "xci" ? data.Firmware : data.Version), data);
                         }
-                        catch (ArgumentException ex)
+                        catch (ArgumentException)
                         {
                             logger.Error("TitleID " + data.TitleID + " is already in the database.");
                         }
@@ -4237,7 +4237,7 @@ namespace Switch_Backup_Manager
                     {
                         result = result.Remove(result.Length - 1);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         result = "";
                     }
