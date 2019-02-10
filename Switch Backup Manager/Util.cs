@@ -2199,7 +2199,7 @@ namespace Switch_Backup_Manager
 
                 if (element != null)
                 {
-                    logger.Info("Removing Title ID " + titleID + " from local eShop database.");
+                    logger.Info("Removing Title ID " + titleID + " from local NSP database.");
                     element.Remove();
                 }
             }
