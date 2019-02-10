@@ -1775,7 +1775,7 @@ namespace Switch_Backup_Manager
         private void objectListView1_FormatCell(object sender, BrightIdeasSoftware.FormatCellEventArgs e)
         {
             FileData data = (FileData)e.Model;
-            
+
             // Highlights when not trimmed
             if (e.ColumnIndex == this.olvColumnIsTrimmedLocal.Index)
             {
