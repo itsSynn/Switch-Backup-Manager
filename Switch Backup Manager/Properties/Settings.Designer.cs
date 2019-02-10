@@ -8,149 +8,186 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Switch_Backup_Manager.Properties {
-    
-    
+namespace Switch_Backup_Manager.Properties
+{
+
+
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
+    {
+
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-        
-        public static Settings Default {
-            get {
+
+        public static Settings Default
+        {
+            get
+            {
                 return defaultInstance;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0, 0")]
-        public global::System.Drawing.Point Location {
-            get {
+        public global::System.Drawing.Point Location
+        {
+            get
+            {
                 return ((global::System.Drawing.Point)(this["Location"]));
             }
-            set {
+            set
+            {
                 this["Location"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1896, 855")]
-        public global::System.Drawing.Size Size {
-            get {
+        public global::System.Drawing.Size Size
+        {
+            get
+            {
                 return ((global::System.Drawing.Size)(this["Size"]));
             }
-            set {
+            set
+            {
                 this["Size"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Maximised {
-            get {
+        public bool Maximised
+        {
+            get
+            {
                 return ((bool)(this["Maximised"]));
             }
-            set {
+            set
+            {
                 this["Maximised"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Minimised {
-            get {
+        public bool Minimised
+        {
+            get
+            {
                 return ((bool)(this["Minimised"]));
             }
-            set {
+            set
+            {
                 this["Minimised"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("350")]
-        public int SplitterDistanceVert {
-            get {
+        public int SplitterDistanceVert
+        {
+            get
+            {
                 return ((int)(this["SplitterDistanceVert"]));
             }
-            set {
+            set
+            {
                 this["SplitterDistanceVert"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("670")]
-        public int SplitterDistanceHor {
-            get {
+        public int SplitterDistanceHor
+        {
+            get
+            {
                 return ((int)(this["SplitterDistanceHor"]));
             }
-            set {
+            set
+            {
                 this["SplitterDistanceHor"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool LeftPanelVisible {
-            get {
+        public bool LeftPanelVisible
+        {
+            get
+            {
                 return ((bool)(this["LeftPanelVisible"]));
             }
-            set {
+            set
+            {
                 this["LeftPanelVisible"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool BottomPanelVisible {
-            get {
+        public bool BottomPanelVisible
+        {
+            get
+            {
                 return ((bool)(this["BottomPanelVisible"]));
             }
-            set {
+            set
+            {
                 this["BottomPanelVisible"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowDLCFilterEshop {
-            get {
+        public bool ShowDLCFilterEshop
+        {
+            get
+            {
                 return ((bool)(this["ShowDLCFilterEshop"]));
             }
-            set {
+            set
+            {
                 this["ShowDLCFilterEshop"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowUpdatesFilterEShop {
-            get {
+        public bool ShowUpdatesFilterEShop
+        {
+            get
+            {
                 return ((bool)(this["ShowUpdatesFilterEShop"]));
             }
-            set {
+            set
+            {
                 this["ShowUpdatesFilterEShop"] = value;
             }
         }
-        
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShowBaseGames {
-            get {
+        public bool ShowBaseGames
+        {
+            get
+            {
                 return ((bool)(this["ShowBaseGames"]));
             }
-            set {
+            set
+            {
                 this["ShowBaseGames"] = value;
             }
         }

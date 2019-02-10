@@ -59,7 +59,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" 
+    xmlns="" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
@@ -576,8 +579,7 @@
         gCn7nvhd8QgAWHtYUAKmWGi+hnTm+n4/VsS3JvarGcyTuRhN/K74BEDXi4PgSdpL47Sat5ErHPJdmsh2
         1bAnU3AshVnIxHDid8UvALq6QQBQsceAKarPHmRv6h1kggnf5Ymcyzz2sTzmsUKMJ/1a8Q2AtV4cBr8D
         THHm9CHGU79IkN/nuzwZXXPYZxexD+8ncQIgPyQTv2s4AmCtF4fBfcAUKytJTp24jHzx58nm1B1sZM+e
-        lushxmDB92a6VMfOVbFfP4R5OoFZnsCUDY2hmfDrGd8FDFT3BCLAYivNc6dKtJcuZv/Fr9I6AwCmmTRH
-        XQ5gCUoL2Eoak/a9sf1oYBs/wf7TOPzkAGYmhekG21Dt4bfy/wFrZrfJnf5dvAAAAABJRU5ErkJggg==
-</value>
+        lushxmDB92a6VMfOVbFfP4R5OoFZnsCUDY2hmfDrGd8FDFT3BCLAYivNc6dKtJcuZv/Fr9I6AwCmmTRH XQ5gCUoL2Eoak/a9sf1oYBs/wf7TOPzkAGYmhekG21Dt4bfy/wFrZrfJnf5dvAAAAABJRU5ErkJggg==
+    </value>
   </data>
 </root>

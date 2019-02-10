@@ -137,7 +137,8 @@ namespace Switch_Backup_Manager
 
                 //Some games needs Age Verification on N's site. Maybe there is someway to bypass it.
                 //First, we try get info from US Site
-                try {
+                try
+                {
                     string ageVerification = doc.DocumentNode.SelectNodes("//*[@id=\"page-container\"]/div[3]/section/h1/span")[0].InnerText;
                     if (ageVerification.Trim().ToLower() == "age verification")
                     {
@@ -145,7 +146,7 @@ namespace Switch_Backup_Manager
                         tryNextCountry = true;
                     }
                 }
-                catch (Exception e){ }
+                catch (Exception e) { }
 
                 if (!tryNextCountry)
                 {
@@ -165,7 +166,7 @@ namespace Switch_Backup_Manager
                         {
                             tryNextCountry = true;
                             goto nextCountry;
-                        }                        
+                        }
                     }
 
                     try
@@ -206,10 +207,10 @@ namespace Switch_Backup_Manager
                         publisher = publisher.Substring(9, publisher.Length - 9);
                         result = true;
                     }
-                    catch { }                                        
+                    catch { }
                 }
 
-                nextCountry: //Sorry for using that but we need speed :(
+            nextCountry: //Sorry for using that but we need speed :(
                 if (tryNextCountry) //Lets try the GB Site
                 {
                     url = "https://ec.nintendo.com/apps/" + data.TitleIDBaseGame + country2;
@@ -234,7 +235,7 @@ namespace Switch_Backup_Manager
                             try
                             {
                                 description = doc.DocumentNode.SelectNodes("//*[@id=\"Overview\"]/div[1]/div/div[2]/div/p[1]")[0].InnerText + doc.DocumentNode.SelectNodes("//*[@id=\"Overview\"]/div[1]/div/div[2]/div/p[2]")[0].InnerText;
-                                result = true;                                
+                                result = true;
                             }
                             catch
                             {
@@ -252,9 +253,9 @@ namespace Switch_Backup_Manager
                                     }
                                     catch { }
                                 }
-                                
+
                             }
-                        };                        
+                        };
                     }
 
                     try
@@ -286,7 +287,7 @@ namespace Switch_Backup_Manager
                             result = true;
                         }
                     }
-                    catch { }                 
+                    catch { }
 
                     try //Can be Publisher or Player (//*[@id="gameDetails"]/div/div[3]/p[1])
                     {
@@ -316,8 +317,8 @@ namespace Switch_Backup_Manager
                     }
                     catch { }
                 }
-				
-				//Logo
+
+                //Logo
                 try
                 {
                     if (data.Region_Icon.Count == 0)
@@ -364,7 +365,7 @@ namespace Switch_Backup_Manager
                     data.Description = System.Net.WebUtility.HtmlDecode(description);
                 }
                 catch { }
-                
+
                 try
                 {
                     data.Publisher = System.Net.WebUtility.HtmlDecode(publisher);
@@ -398,7 +399,7 @@ namespace Switch_Backup_Manager
             }
             catch (Exception e)
             {
-                Util.logger.Warning("Could not retrieve or parse info from the web for this title ("+data.TitleID+").");
+                Util.logger.Warning("Could not retrieve or parse info from the web for this title (" + data.TitleID + ").");
             }
             return result;
         }
@@ -433,7 +434,7 @@ namespace Switch_Backup_Manager
             int i = 0;
             logger.Info("Started to get extra info from web.");
 
-            Dictionary<Tuple<string, string>, FileData> _files =  CloneDictionary(files);
+            Dictionary<Tuple<string, string>, FileData> _files = CloneDictionary(files);
 
             foreach (KeyValuePair<Tuple<string, string>, FileData> entry in _files)
             {
@@ -449,11 +450,12 @@ namespace Switch_Backup_Manager
             if (source == "local")
             {
                 XML_Local.Save(@LOCAL_FILES_DB);
-            } else if (source == "eshop")
+            }
+            else if (source == "eshop")
             {
                 XML_NSP_Local.Save(@LOCAL_NSP_FILES_DB);
             }
-            
+
             logger.Info("Finished getting extra info from web.");
         }
 
@@ -616,14 +618,15 @@ namespace Switch_Backup_Manager
             throw new NotImplementedException();
         }
 
-        public static string GetRenamingString(FileData data, string pattern) {
-            string result ="";
+        public static string GetRenamingString(FileData data, string pattern)
+        {
+            string result = "";
 
             if (data != null)
             {
                 result = pattern;
 
-                if (pattern == "{CDNSP}" )
+                if (pattern == "{CDNSP}")
                 {
                     if (data.ContentType == "AddOnContent")
                     {
@@ -676,9 +679,11 @@ namespace Switch_Backup_Manager
                     try
                     {
                         result = result.Substring(0, MaxSizeFilenameNSP);
-                    } catch {
+                    }
+                    catch
+                    {
                         result = result_;
-                    }                    
+                    }
                 }
                 result += Path.GetExtension(data.FilePath);
             }
@@ -691,12 +696,13 @@ namespace Switch_Backup_Manager
             string filename = string.Format(outFileFormat, cOutFileNo);
             cOutFileNo++;
 
-            return File.Open(@outDirectory +"\\"+ filename, FileMode.CreateNew, FileAccess.Write, FileShare.None);
+            return File.Open(@outDirectory + "\\" + filename, FileMode.CreateNew, FileAccess.Write, FileShare.None);
         }
 
-        public static void SplitXCIFiles(Dictionary<Tuple<string, string>, FileData> files_, string outputDirectory, string source) {
+        public static void SplitXCIFiles(Dictionary<Tuple<string, string>, FileData> files_, string outputDirectory, string source)
+        {
             Dictionary<Tuple<string, string>, FileData> files = CloneDictionary(files_);
-            
+
             int filesCount = files.Count();
             int i = 0;
             FrmMain.progressPercent = 0;
@@ -744,7 +750,8 @@ namespace Switch_Backup_Manager
                         destination.Write(buffer, 0, read);
                     }
                     result = true;
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     logger.Error(e.Message);
                 }
@@ -764,13 +771,14 @@ namespace Switch_Backup_Manager
             {
                 if (!file.IsTrimmed)
                 {
-                    logger.Info("Trimming file "+file.FileNameWithExt+". Old size: "+Convert.ToString(file.ROMSizeBytes)+". New size: "+Convert.ToString(file.UsedSpaceBytes));
+                    logger.Info("Trimming file " + file.FileNameWithExt + ". Old size: " + Convert.ToString(file.ROMSizeBytes) + ". New size: " + Convert.ToString(file.UsedSpaceBytes));
                     try
                     {
                         FileStream fileStream = new FileStream(@file.FilePath, FileMode.Open, FileAccess.Write);
                         fileStream.SetLength(file.UsedSpaceBytes);
                         fileStream.Close();
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         logger.Error("Error trimming file " + file.FilePath + "\n" + e.StackTrace);
                         return false;
@@ -780,7 +788,8 @@ namespace Switch_Backup_Manager
                     file.ROMSize = file.UsedSpace;
                     file.IsTrimmed = true;
                     result = true;
-                } else
+                }
+                else
                 {
                     logger.Info("File is already trimmed");
                 }
@@ -809,7 +818,8 @@ namespace Switch_Backup_Manager
                     FrmMain.progressPercent = (int)(i * 100) / filesCount;
                 }
                 XML_Local.Save(@LOCAL_FILES_DB);
-            } else
+            }
+            else
             {
                 foreach (KeyValuePair<Tuple<string, string>, FileData> entry in files)
                 {
@@ -847,10 +857,11 @@ namespace Switch_Backup_Manager
                 if (source == "local")
                 {
                     XML_Local.Save(@LOCAL_FILES_DB);
-                } else if (source == "eshop")
+                }
+                else if (source == "eshop")
                 {
                     XML_NSP_Local.Save(LOCAL_NSP_FILES_DB);
-                }                
+                }
             }
             else
             {
@@ -997,16 +1008,18 @@ namespace Switch_Backup_Manager
                     if (extension != ".xc0")
                     {
                         FileSystem.DeleteFile(file.FilePath, UIOption.OnlyErrorDialogs, SendDeletedFilesToRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
-                    } else
+                    }
+                    else
                     {
                         List<string> list = GetSplitedXCIsFiles(file.FilePath);
                         foreach (string splited_file in list)
                         {
                             FileSystem.DeleteFile(splited_file, UIOption.OnlyErrorDialogs, SendDeletedFilesToRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
                         }
-                    }                    
+                    }
                     result = true;
-                } else
+                }
+                else
                 {
                     logger.Info("File not found: " + file.FilePath);
                     return true;
@@ -1024,7 +1037,8 @@ namespace Switch_Backup_Manager
                 element = XML_Local.Descendants("Game")
                     .FirstOrDefault(el => (string)el.Attribute("TitleID") == file.TitleID);
                 xml = LOCAL_FILES_DB;
-            } else if (source == "eshop")
+            }
+            else if (source == "eshop")
             {
                 element = XML_NSP_Local.Descendants("Game")
                     .FirstOrDefault(el => (string)el.Attribute("TitleID") == file.TitleID);
@@ -1045,7 +1059,8 @@ namespace Switch_Backup_Manager
             {
                 element = XML_Local.Descendants("Game")
                     .FirstOrDefault(el => (string)el.Attribute("TitleID") == file.TitleID);
-            } else if (source == "eshop")
+            }
+            else if (source == "eshop")
             {
                 element = XML_NSP_Local.Descendants("Game")
                     .FirstOrDefault(el => (string)el.Attribute("TitleID") == file.TitleID);
@@ -1062,7 +1077,7 @@ namespace Switch_Backup_Manager
             XDocument xml_ = XDocument.Load(@source_xml);
 
             string removeFrom = (source_xml == LOCAL_FILES_DB ? "local" : "e-shop");
-            logger.Info("Started to remove missing files from "+ removeFrom + " database");
+            logger.Info("Started to remove missing files from " + removeFrom + " database");
 
             int i = 0;
             foreach (XElement xe in xml_.Descendants("Game"))
@@ -1072,18 +1087,19 @@ namespace Switch_Backup_Manager
                     RemoveTitleIDFromXML(xe.Attribute("TitleID").Value, xe.Element(source_xml == LOCAL_FILES_DB ? "Firmware" : "Version").Value, @source_xml);
                     logger.Info(xe.Element("FilePath").Value + " removed.");
                     i++;
-                }                
+                }
             }
 
             if (source_xml == LOCAL_FILES_DB)
             {
                 XML_Local.Save(@source_xml);
-            } else
+            }
+            else
             {
                 XML_NSP_Local.Save(@source_xml);
             }
-            
-            logger.Info("Finished removing missing files from "+ removeFrom + " database. " + i + " files removed.");
+
+            logger.Info("Finished removing missing files from " + removeFrom + " database. " + i + " files removed.");
         }
 
         public static bool IsTitleIDOnXML(string titleID, string rev, string xml)
@@ -1095,7 +1111,8 @@ namespace Switch_Backup_Manager
             {
                 element = XML_Local.Descendants("Game")
                    .FirstOrDefault(el => (string)el.Attribute("TitleID") == titleID && (string)el.Element("Firmware") == rev);
-            } else
+            }
+            else
             {
                 element = XML_NSP_Local.Descendants("Game")
                    .FirstOrDefault(el => (string)el.Attribute("TitleID") == titleID && (string)el.Element("Version") == rev);
@@ -1118,7 +1135,8 @@ namespace Switch_Backup_Manager
             {
                 element = XML_Local.Descendants("Game")
                    .FirstOrDefault(el => (string)el.Attribute("TitleID") == titleID);
-            } else
+            }
+            else
             {
                 element = XML_NSP_Local.Descendants("Game")
                    .FirstOrDefault(el => (string)el.Attribute("TitleID") == titleID);
@@ -1143,7 +1161,7 @@ namespace Switch_Backup_Manager
                 if (element.Element("name") != null && element.Element("name").Value.Trim() != "")
                 {
                     data.GameName = element.Element("name").Value;
-                }         
+                }
                 if (element.Element("card") != null)
                 {
                     data.Cardtype = element.Element("card").Value;
@@ -1167,12 +1185,13 @@ namespace Switch_Backup_Manager
                 if (element.Element("languages") != null)
                 {
                     data.Languages_resumed = element.Element("languages").Value;
-                }                 
+                }
                 if (element.Element("id") != null)
                 {
                     data.IdScene = element.Element("id").Value == "" ? 0 : Convert.ToInt32(element.Element("id").Value);
                 }
-            } else
+            }
+            else
             {
                 if (data.DistributionType == "Download")
                 {
@@ -1207,13 +1226,15 @@ namespace Switch_Backup_Manager
                                 try
                                 {
                                     languages = languages.Remove(languages.Length - 1);
-                                } catch (Exception e)
+                                }
+                                catch (Exception e)
                                 {
                                     logger.Debug("Exception on languages.Remove for Title ID " + data.TitleID);
                                     languages = "";
-                                }                                
+                                }
                             }
-                        } else
+                        }
+                        else
                         {
                             logger.Debug("data.Languages was null for Title ID " + data.TitleID);
                         }
@@ -1287,7 +1308,7 @@ namespace Switch_Backup_Manager
                         {
                             logger.Debug("Adding element...");
                             XML_Local.Root.Add(element);
-                            logger.Debug("Saving xml "+@xml);
+                            logger.Debug("Saving xml " + @xml);
                             XML_Local.Save(@xml);
                             logger.Debug("xml saved...");
                         }
@@ -1322,7 +1343,7 @@ namespace Switch_Backup_Manager
         /// <returns></returns>
         public static Dictionary<Tuple<string, string>, FileData> LoadXMLToFileDataDictionary(XDocument xml)
         {
-            return LoadXMLToFileDataDictionary(xml ,true, true, true);
+            return LoadXMLToFileDataDictionary(xml, true, true, true);
         }
 
         /// <summary>
@@ -1368,7 +1389,7 @@ namespace Switch_Backup_Manager
         private static bool checkDBVersion(string xml)
         {
             bool result = false;
-            int ver_db  = 0;
+            int ver_db = 0;
             int ver_min = Convert.ToInt32(MIN_DB_Version.Replace(".", "")); //Ex 1.0.8 -> 108
 
             //Check if DB is on minimum version
@@ -1376,16 +1397,17 @@ namespace Switch_Backup_Manager
 
             void saveXML() //Local Function to avoid code replication.
             {
-                if (MessageBox.Show("Your "+ xml + " is outdated and needs to be created again. \nDo you want to make a backup?", "Switch Backup Manager", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Your " + xml + " is outdated and needs to be created again. \nDo you want to make a backup?", "Switch Backup Manager", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     try
                     {
                         File.Copy(xml, xml + ".old", true);
-                    } catch (Exception e)
+                    }
+                    catch (Exception e)
                     {
                         logger.Error("Could not backup " + xml + "\n" + e.StackTrace);
                     }
-                    
+
                 }
                 xml_temp = new XDocument(new XComment("List games"),
                 new XElement("Games", new XAttribute("Date", DateTime.Now.ToString()), new XAttribute("Version", VERSION)));
@@ -1420,7 +1442,8 @@ namespace Switch_Backup_Manager
             {
                 keys_file = KEYS_FILE;
                 ini.IniWriteValue("Config", "keys_file", keys_file);
-            } else
+            }
+            else
             {
                 KEYS_FILE = keys_file;
             }
@@ -1462,17 +1485,19 @@ namespace Switch_Backup_Manager
             {
                 ini.IniWriteValue("AutoRenaming", "MaxSizeFilenameNSP", "0");
                 MaxSizeFilenameNSP = 0;
-            } else
+            }
+            else
             {
                 try
                 {
                     MaxSizeFilenameNSP = Convert.ToInt16(MaxSizeFilenameNSP_str);
-                } catch
+                }
+                catch
                 {
                     MaxSizeFilenameNSP = 0;
                 }
             }
-            
+
             //Searches for keys.txt
             if (!File.Exists(keys_file))
             {
@@ -1485,7 +1510,7 @@ namespace Switch_Backup_Manager
                 }
                 if (!File.Exists(KEYS_FILE))
                 {
-                    MessageBox.Show(KEYS_FILE +" failed to load.\nPlease include "+ KEYS_FILE + " in this location.");
+                    MessageBox.Show(KEYS_FILE + " failed to load.\nPlease include " + KEYS_FILE + " in this location.");
                     Environment.Exit(0);
                 }
             }
@@ -1502,7 +1527,7 @@ namespace Switch_Backup_Manager
             //Searches for hactool.exe. 
             if (!File.Exists(HACTOOL_FILE))
             {
-                MessageBox.Show(HACTOOL_FILE+" is missing. Please, download it at\n"+HACTOOL_DOWNLOAD_SITE);
+                MessageBox.Show(HACTOOL_FILE + " is missing. Please, download it at\n" + HACTOOL_DOWNLOAD_SITE);
                 Environment.Exit(0);
             }
 
@@ -1510,7 +1535,8 @@ namespace Switch_Backup_Manager
             if (!File.Exists(NSWDB_FILE))
             {
                 UpdateNSWDB();
-            } else
+            }
+            else
             {
                 string autoUpdateNSWDB_File = ini.IniReadValue("Config", "autoUpdateNSWDB").Trim().ToLower();
                 if (autoUpdateNSWDB_File != "")
@@ -1520,7 +1546,8 @@ namespace Switch_Backup_Manager
                         AutoUpdateNSDBOnStartup = (autoUpdateNSWDB_File == "true");
                         UpdateNSWDB();
                     }
-                } else
+                }
+                else
                 {
                     ini.IniWriteValue("Config", "autoUpdateNSWDB", "false");
                 }
@@ -1560,7 +1587,8 @@ namespace Switch_Backup_Manager
             try
             {
                 XML_NSWDB = XDocument.Load(@NSWDB_FILE);
-            } catch
+            }
+            catch
             {
                 logger.Error("Could not load Scene list xml. Scene list will not be available.");
             }
@@ -1572,9 +1600,10 @@ namespace Switch_Backup_Manager
                     new XElement("Games", new XAttribute("Date", DateTime.Now.ToString()), new XAttribute("Version", VERSION)));
                 XML_Local.Declaration = new XDeclaration("1.0", "utf-8", "true");
                 XML_Local.Save(@LOCAL_FILES_DB);
-            } else
+            }
+            else
             {
-                checkDBVersion(@LOCAL_FILES_DB);               
+                checkDBVersion(@LOCAL_FILES_DB);
                 XML_Local = XDocument.Load(@LOCAL_FILES_DB);
             }
 
@@ -1606,13 +1635,14 @@ namespace Switch_Backup_Manager
             using (var client = new WebClient())
             {
                 try
-                {                    
+                {
                     client.DownloadFile(@NSWDB_DOWNLOAD_SITE, NSWDB_FILE);
-                } catch (WebException ex)
+                }
+                catch (WebException ex)
                 {
                     MessageBox.Show("Could not download NSWDB File from nswdb.com! \n Please check your internet connection.");
                 }
-                
+
             }
         }
 
@@ -1714,7 +1744,7 @@ namespace Switch_Backup_Manager
         {
             protected override WebRequest GetWebRequest(Uri address)
             {
-                HttpWebRequest request = (HttpWebRequest) base.GetWebRequest(address);
+                HttpWebRequest request = (HttpWebRequest)base.GetWebRequest(address);
 
                 try
                 {
@@ -1992,7 +2022,7 @@ namespace Switch_Backup_Manager
                     {
                         files = Util.GetNSPsInFolder(path);
                     }
-                    
+
                     int filesCount = files.Count();
                     int i = 0;
                     if (fileType == "xci")
@@ -2003,7 +2033,7 @@ namespace Switch_Backup_Manager
                     {
                         logger.Info("Adding " + filesCount + " files to local Eshop database");
                     }
-                    
+
                     Stopwatch sw = Stopwatch.StartNew();
 
                     foreach (string file in files)
@@ -2061,11 +2091,12 @@ namespace Switch_Backup_Manager
                 if (fileType == "xci")
                 {
                     logger.Info("Adding " + filesCount + " files to local XCI database.");
-                } else
+                }
+                else
                 {
                     logger.Info("Adding " + filesCount + " files to local Eshop database.");
                 }
-                
+
                 Stopwatch sw = Stopwatch.StartNew();
                 FrmMain.progressCurrentfile = "";
 
@@ -2075,7 +2106,8 @@ namespace Switch_Backup_Manager
                     if (fileType == "xci")
                     {
                         data = Util.GetFileData(file);
-                    } else
+                    }
+                    else
                     {
                         data = Util.GetFileDataNSP(file);
                     }
@@ -2098,14 +2130,15 @@ namespace Switch_Backup_Manager
                 }
                 sw.Stop();
                 logger.Info("Finished adding files. Total time spent: " + sw.Elapsed.ToString("mm\\:ss\\.ff") + ".");
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 logger.Error(e.StackTrace);
             }
 
             return dictionary;
         }
-        
+
         public static void AppendFileDataDictionaryToXML(Dictionary<Tuple<string, string>, FileData> dictionary, string xml)
         {
             foreach (KeyValuePair<Tuple<string, string>, FileData> entry in dictionary)
@@ -2113,7 +2146,7 @@ namespace Switch_Backup_Manager
                 WriteFileDataToXML(entry.Value, xml);
             }
         }
-        
+
         public static void AppendFileDataDictionaryToXML(Dictionary<Tuple<string, string>, FileData> dictionary)
         {
             AppendFileDataDictionaryToXML(dictionary, LOCAL_FILES_DB);
@@ -2128,10 +2161,11 @@ namespace Switch_Backup_Manager
             if (xml == LOCAL_FILES_DB)
             {
                 XML_Local.Save(@xml);
-            } else
+            }
+            else
             {
                 XML_NSP_Local.Save(@xml);
-            }            
+            }
         }
 
         public static void RemoveTitleIDFromXML(string titleID, string rev, string xml)
@@ -2183,15 +2217,17 @@ namespace Switch_Backup_Manager
                             logger.Info("Started to copy the file: " + file_path + " to " + destiny + ".");
                             FileSystem.CopyFile(file_path, destiny + Path.GetFileName(file_path), UIOption.AllDialogs);
                             i++;
-                        }                        
-                    } else
+                        }
+                    }
+                    else
                     {
                         FrmMain.progressCurrentfile = data.FilePath;
                         logger.Info("Started to copy the file: " + data.FilePath + " to " + destiny + ".");
                         FileSystem.CopyFile(data.FilePath, destiny + data.FileNameWithExt, UIOption.AllDialogs);
                         i++;
                     }
-                } else if (operation == "move")
+                }
+                else if (operation == "move")
                 {
                     if (file_extension.ToLower() == ".xc0") //Split Files
                     {
@@ -2480,7 +2516,7 @@ namespace Switch_Backup_Manager
                         }
 
                         bool found = false;
-                            
+
                         FileData data_tmp = null;
                         Dictionary<Tuple<string, string>, FileData> NSPList = Util.LoadXMLToFileDataDictionary(XML_NSP_Local);
                         NSPList.TryGetValue(new Tuple<string, string>(data.TitleIDBaseGame, data.Version), out data_tmp); //Try to find on NSP List
@@ -2907,7 +2943,7 @@ namespace Switch_Backup_Manager
                     process.WaitForExit();
                     process.Close();
                     byte[] flux = new byte[200];
-                    
+
                     try
                     {
                         data.Region_Icon = new Dictionary<string, string>();
@@ -2966,11 +3002,11 @@ namespace Switch_Backup_Manager
                         if (data.GameName.Trim() == "")
                         {
                             data.GameName = data.FileName;
-                        }                          
+                        }
                     }
                     catch (Exception e)
                     {
-                        logger.Error(data.TitleID + " seems to be broken! Some info will be missing.\n"+e.StackTrace);
+                        logger.Error(data.TitleID + " seems to be broken! Some info will be missing.\n" + e.StackTrace);
                     }
 
                     if (data.ContentType == "Patch")
@@ -3043,7 +3079,7 @@ namespace Switch_Backup_Manager
                 {
                     Directory.Delete("tmp", true);
                 }
-                catch { }                
+                catch { }
             }
             try
             {
@@ -3051,7 +3087,8 @@ namespace Switch_Backup_Manager
                 {
                     GetExtendedInfo(data);
                 }
-            } catch { }
+            }
+            catch { }
 
             return data;
         }
@@ -3546,7 +3583,7 @@ namespace Switch_Backup_Manager
                 if (xe.Element("TitleIDBaseGame") != null)
                 {
                     result.TitleIDBaseGame = xe.Element("TitleIDBaseGame").Value;
-                }          
+                }
                 if (xe.Element("Version") != null)
                 {
                     result.Version = xe.Element("Version").Value;
@@ -3587,7 +3624,7 @@ namespace Switch_Backup_Manager
                 {
                     result.IsTrimmed = (xe.Element("IsTrimmed").Value == "true") ? true : false;
                 }
-                                
+
                 if (xe.Element("Languages") != null)
                 {
                     string languages_ = xe.Element("Languages").Value;
@@ -3640,7 +3677,7 @@ namespace Switch_Backup_Manager
                 {
                     result.UsedSpaceBytes = Convert.ToInt64(xe.Element("UsedSpaceBytes").Value);
                 }
-                                
+
                 Dictionary<string, string> Region_Icon = new Dictionary<string, string>();
                 string[] regionIcons = xe.Element("Region_Icon").Value.Split("[".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                 for (int i = 0; i < regionIcons.Length; i++)
@@ -3700,7 +3737,7 @@ namespace Switch_Backup_Manager
                 }
                 if (xe.Element("Publisher") != null)
                 {
-                    result.Publisher= xe.Element("Publisher").Value;
+                    result.Publisher = xe.Element("Publisher").Value;
                 }
                 if (xe.Element("ReleaseDate") != null)
                 {
@@ -3790,7 +3827,7 @@ namespace Switch_Backup_Manager
 
             List<string> languages = new List<string>();
             string[] languages_ = xe.Element("languages").Value.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            for (int i=0; i < languages_.Length; i++)
+            for (int i = 0; i < languages_.Length; i++)
             {
                 languages.Add(languages_[i]);
             }
@@ -3799,7 +3836,7 @@ namespace Switch_Backup_Manager
 
             if (isSceneXML)
             {
-                if (IsTitleIDOnXML(result.TitleID,LOCAL_NSP_FILES_DB))
+                if (IsTitleIDOnXML(result.TitleID, LOCAL_NSP_FILES_DB))
                 {
                     if (IsTitleIDOnXML(result.TitleID, LOCAL_FILES_DB))
                     {
@@ -3808,8 +3845,9 @@ namespace Switch_Backup_Manager
                     else
                     {
                         result.sceneFound = "NSP";
-                    }                    
-                } else if (IsTitleIDOnXML(result.TitleID, LOCAL_FILES_DB))
+                    }
+                }
+                else if (IsTitleIDOnXML(result.TitleID, LOCAL_FILES_DB))
                 {
                     result.sceneFound = "XCI";
                 }
@@ -3820,7 +3858,7 @@ namespace Switch_Backup_Manager
 
         public static FileData GetFileData(string titleID, string rev, Dictionary<Tuple<string, string>, FileData> dictionary)
         {
-            FileData  result = new FileData();
+            FileData result = new FileData();
 
             dictionary.TryGetValue(new Tuple<string, string>(titleID, rev), out result);
             if (result == null)
@@ -3836,7 +3874,7 @@ namespace Switch_Backup_Manager
             return result;
         }
 
-        public static Dictionary<Tuple<string, string>, FileData> GetFileDataCollectionNSP (string path)
+        public static Dictionary<Tuple<string, string>, FileData> GetFileDataCollectionNSP(string path)
         {
             Dictionary<Tuple<string, string>, FileData> result = new Dictionary<Tuple<string, string>, FileData>();
 
@@ -3868,7 +3906,7 @@ namespace Switch_Backup_Manager
             return result;
         }
 
-        public static Dictionary<Tuple<string, string>, FileData> GetFileDataCollection (string path)
+        public static Dictionary<Tuple<string, string>, FileData> GetFileDataCollection(string path)
         {
             Dictionary<Tuple<string, string>, FileData> result = new Dictionary<Tuple<string, string>, FileData>();
 
@@ -3892,7 +3930,7 @@ namespace Switch_Backup_Manager
                 {
                     logger.Error("Found duplicate file (same TitleID = " + data.TitleID + " on " + Path.GetDirectoryName(data.FilePath) + ".");
                 }
-                
+
                 i++;
                 FrmMain.progressPercent = (int)(i * 100) / filesCount;
             }
@@ -3900,7 +3938,7 @@ namespace Switch_Backup_Manager
             return result;
         }
 
-        public static Dictionary<Tuple<string, string>, FileData> GetFileDataCollectionAll (string path)
+        public static Dictionary<Tuple<string, string>, FileData> GetFileDataCollectionAll(string path)
         {
             Dictionary<Tuple<string, string>, FileData> result = new Dictionary<Tuple<string, string>, FileData>();
 
@@ -3922,7 +3960,7 @@ namespace Switch_Backup_Manager
                 {
                     data = GetFileDataNSP(file);
                 }
-                
+
                 try
                 {
                     if (!String.IsNullOrEmpty(data.TitleID))
@@ -3991,7 +4029,7 @@ namespace Switch_Backup_Manager
 
             try
             {
-                foreach (string f in Directory.GetFiles(Path.GetDirectoryName(firstFile), Path.GetFileNameWithoutExtension(firstFile)+".xc*", System.IO.SearchOption.AllDirectories))
+                foreach (string f in Directory.GetFiles(Path.GetDirectoryName(firstFile), Path.GetFileNameWithoutExtension(firstFile) + ".xc*", System.IO.SearchOption.AllDirectories))
                 {
                     list.Add(f);
                 }
@@ -4158,7 +4196,7 @@ namespace Switch_Backup_Manager
         {
             Dictionary<Tuple<string, string>, FileData> result = new Dictionary<Tuple<string, string>, FileData>();
 
-            foreach(KeyValuePair<Tuple<string, string>, FileData> entry in dictionary)
+            foreach (KeyValuePair<Tuple<string, string>, FileData> entry in dictionary)
             {
                 result.Add(entry.Key, entry.Value);
             }
