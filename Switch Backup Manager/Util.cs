@@ -73,7 +73,7 @@ namespace Switch_Backup_Manager
         public static Color HighlightBothOnScene_color = Color.Yellow;
         public static Color HighlightVersion_color = Color.LightPink;
 
-        private static string[] Language = new string[16]
+        private static string[] Language = new string[]
         {
             "American English",
             "British English",
@@ -93,7 +93,7 @@ namespace Switch_Backup_Manager
             "???"
         };
 
-        public static string[] AutoRenamingTags = new string[12]
+        public static string[] AutoRenamingTags = new string[]
         {
             "{gamename}",
             "{titleid}",
@@ -106,7 +106,9 @@ namespace Switch_Backup_Manager
             "{languages}",
             "{sceneid}",
             "{nspversion}",
-            "{content_type}"
+            "{content_type}",
+            "{nsptype}",
+            "{filename}",
         };
 
         private static Image[] Icons = new Image[16];
@@ -648,15 +650,18 @@ namespace Switch_Backup_Manager
                 else
                 {
                     string content_type = ""; //Patch, AddOnContent, Application
+                    string nsptype = ""; //Patch, AddOnContent, Application
                     if (data.ContentType != "")
                     {
                         switch (data.ContentType)
                         {
                             case "Patch":
                                 content_type = "Update";
+                                nsptype = "UPD";
                                 break;
                             case "AddOnContent":
                                 content_type = "DLC";
+                                nsptype = "DLC";
                                 break;
                             case "Application":
                                 content_type = "Base Game";
@@ -676,6 +681,45 @@ namespace Switch_Backup_Manager
                     result = result.Replace(AutoRenamingTags[9], string.Format("{0:D4}", data.IdScene));
                     result = result.Replace(AutoRenamingTags[10], data.Version);
                     result = result.Replace(AutoRenamingTags[11], content_type);
+                    result = result.Replace(AutoRenamingTags[12], nsptype);
+
+                    if (result.Contains(AutoRenamingTags[13]))
+                    {
+                        string filename = "";
+                        Regex regex = new Regex(@"^(?:(?:\[[\w ]+\] ?)?(.*?) (?:\[[\w ]+\] ?)?\[[a-zA-Z0-9]{16}\] ?\[v?\d+\]|([\w\-]+?)(?:_(?:dlc|[a-zA-Z0-9]{16}|v?\d+))+)");
+                        MatchCollection matches = regex.Matches(data.FileName);
+                        if (matches.Count != 0)
+                        {
+                            GroupCollection group = matches[0].Groups;
+                            if (group.Count == 3)
+                            {
+                                if (!string.IsNullOrEmpty(group[1].ToString()))
+                                {
+                                    filename = group[1].ToString();
+                                }
+                                else if (!string.IsNullOrEmpty(group[2].ToString()))
+                                {
+                                    filename = group[2].ToString();
+                                }
+                                else
+                                {
+                                    filename = group[0].ToString();
+                                }
+                            }
+                            else
+                            {
+                                filename = matches[0].ToString();
+                            }
+                        }
+                        else
+                        {
+                            filename = data.FileName;
+                        }
+
+                        result = result.Replace(AutoRenamingTags[13], filename);
+                    }
+
+                    result = result.Replace("[]", "").Replace("  ", " ").Trim();
                 }
                 if (MaxSizeFilenameNSP != 0)
                 {
@@ -1910,12 +1954,20 @@ namespace Switch_Backup_Manager
 
         public static void GetKeys()
         {
-            string text = (from x in File.ReadAllLines(KEYS_FILE)
-                           select x.Split('=') into x
-                           where x.Length > 1
-                           select x).ToDictionary((string[] x) => x[0].Trim(), (string[] x) => x[1])["header_key"].Replace(" ", "");
-            NcaHeaderEncryptionKey1_Prod = StringToByteArray(text.Remove(32, 32));
-            NcaHeaderEncryptionKey2_Prod = StringToByteArray(text.Remove(0, 32));
+            try
+            {
+                string text = (from x in File.ReadAllLines(KEYS_FILE)
+                               select x.Split('=') into x
+                               where x.Length > 1
+                               select x).ToDictionary((string[] x) => x[0].Trim(), (string[] x) => x[1])["header_key"].Replace(" ", "");
+                NcaHeaderEncryptionKey1_Prod = StringToByteArray(text.Remove(32, 32));
+                NcaHeaderEncryptionKey2_Prod = StringToByteArray(text.Remove(0, 32));
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show(KEYS_FILE + " has keys with the same value.");
+                Environment.Exit(0);
+            }
         }
 
         public static string GetMkey(byte id)
@@ -1938,9 +1990,9 @@ namespace Switch_Backup_Manager
                 case 7:
                     return "MasterKey6 (6.2.0)";
                 case 8:
-                    return "MasterKey7 (7.0.0-7.0.1)";
+                    return "MasterKey7 (7.0.0-8.0.1)";
                 case 9:
-                    return "MasterKey8 (?)";
+                    return "MasterKey8 (8.1.0)";
                 case 10:
                     return "MasterKey9 (?)";
                 case 11:
@@ -2733,11 +2785,29 @@ namespace Switch_Backup_Manager
                             {
                                 WindowStyle = ProcessWindowStyle.Hidden,
                                 FileName = "hactool.exe",
-                                Arguments = "-k keys.txt --section0dir=data meta"
+                                Arguments = "-k keys.txt --section0dir=data meta",
+                                UseShellExecute = false,
+                                RedirectStandardOutput = true,
+                                CreateNoWindow = true
                             };
                             process.Start();
+
+                            string masterkey = "";
+                            while (!process.StandardOutput.EndOfStream)
+                            {
+                                string output = process.StandardOutput.ReadLine();
+                                if (output.StartsWith("Master Key Revision"))
+                                {
+                                    masterkey = Regex.Replace(output, @"\s+", " ");
+                                }
+                            }
                             process.WaitForExit();
 
+                            if (!Directory.Exists("data"))
+                            {
+                                logger.Error("Section 0 directory missing! Please check if you have required key in " + KEYS_FILE + ". " + masterkey);
+                            }
+                            else
                             try
                             {
                                 string[] cnmt = Directory.GetFiles("data", "*.cnmt");
@@ -2894,7 +2964,7 @@ namespace Switch_Backup_Manager
                                         {
                                             fileStream3.Read(buffer2, 0, 56);
                                             array9[k] = new CNMT.CNMT_Entry(buffer2);
-                                            if (array9[k].Type == (byte)CNMT.CNMT_Entry.ContentType.DATA)
+                                            if (array9[k].Type == (byte)CNMT.CNMT_Entry.ContentType.CONTROL || array9[k].Type == (byte)CNMT.CNMT_Entry.ContentType.DATA)
                                             {
                                                 ncaTarget = BitConverter.ToString(array9[k].NcaId).ToLower().Replace("-", "") + ".nca";
                                                 break;
@@ -2942,15 +3012,19 @@ namespace Switch_Backup_Manager
                     }
                 }
 
-                if (nspSource == (1 << 6) - 1)
+                if ((~nspSource & (int)(Consts.NSPSource.AUTHORINGTOOLINFO_XML)) == 0)
+                {
+                    data.Source = "Homebrew";
+                }
+                else if ((~nspSource & (int)(Consts.NSPSource.LEGALINFO_XML | Consts.NSPSource.NACP_XML | Consts.NSPSource.PROGRAMINFO_XML | Consts.NSPSource.CARDSPEC_XML)) == 0)
                 {
                     data.Source = "Scene";
                 }
-                else if (nspSource == (1 << 3) - 1)
+                else if ((~nspSource & (int)(Consts.NSPSource.CERT | Consts.NSPSource.TIK)) == 0)
                 {
                     data.Source = "CDN";
                 }
-                else if (nspSource == (1 << 1) - 1)
+                else if ((~nspSource & (int)(Consts.NSPSource.CNMT_XML)) == 0)
                 {
                     data.Source = "XCI";
                 }
@@ -3036,7 +3110,7 @@ namespace Switch_Backup_Manager
                     }
                     catch (Exception e)
                     {
-                        logger.Error(data.TitleID + " seems to be broken! Some info will be missing");
+                        logger.Error(data.TitleID + " seems to be broken! Some info will be missing.\n" + e.StackTrace);
                     }
 
                     if (data.ContentType == "Patch")
