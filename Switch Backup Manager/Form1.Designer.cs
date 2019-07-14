@@ -3227,6 +3227,23 @@
             this.olvColumnTitleIDScene.AspectName = "TitleID";
             this.olvColumnTitleIDScene.Text = "Title ID";
             this.olvColumnTitleIDScene.Width = 124;
+            this.contextMenuEShopList.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuEShopList.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemEShopShowInExplorer,
+            this.toolStripMenuItemEShopUpdateInfo,
+            this.toolStripSeparator9,
+            this.toolStripMenuItemEShopAutoRename,
+            this.toolStripSeparator10,
+            this.toolStripMenuItemEShopCopyToFolder,
+            this.toolStripMenuItemEShopMoveToFolder,
+            this.toolStripMenuItem64,
+            this.copyInfoToClipboardToolStripMenuItem,
+            this.updateGameInfoFromWebToolStripMenuItemEshop,
+            this.toolStripMenuItem97Eshop,
+            this.deleteSelectedFilesToolStripMenuItemEshop});
+            this.contextMenuEShopList.Name = "contextMenuStripSDCard";
+            this.contextMenuEShopList.Size = new System.Drawing.Size(277, 226);
+            this.contextMenuEShopList.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStripEShop_Opening);
             // 
             // olvColumnGameNameScene
             // 
